@@ -370,3 +370,34 @@ in addtion, we are going to make it Gaussian blur, or add some transparecy of it
 ### Outcome
 Added **`.page-bg-decoration`** in **`index.html`** with **`image/background.webp`** in **`css/styles.css`** (`url('../image/background.webp')`): **`position: fixed`**, **`background-attachment: fixed`**, **`cover`**, **`opacity: 0.4`**, **`filter: blur(12px)`**, slight **`scale(1.08)`** to hide blur fringe. Raised **`main`**, **`footer`**, **`#works-float-control`** with **`position: relative; z-index: 1`**; **`#row-nav`** gets **`z-index: 2`** only so **`sticky-top`** is not replaced by **`position: relative`**. Reduced-motion variant. Logged as first **Decoration** bullet in **`FEATURES.md`**.
 
+---
+
+### Prompt
+great, now
+next feature:
+the interaction between map-star-marker and date table
+if we hover or click on an item in the table
+the corresponding star will start glowing and grow slightly bigger
+
+
+### Outcome
+Centralized stops in **`TOUR_MAP_STOPS`**; **`initTourMap()`** assigns **`tourMapMarkers`**. **`tourStopIndexFromLocation()`** maps **`concert.location`** to a marker index; linked rows get **`data-tour-stop-index`** + **`tour-date-row`**. **`bindTourDatesToMapMarkers()`** wires **`mouseenter` / `mouseleave`** (hover glow) and **`click`** (toggle sticky highlight + **`tour-date-row--active`**). **`syncTourMarkersTableHighlight()`** toggles **`.map-star-marker-inner--highlight`** on the Leaflet icon DOM. CSS: scale + layered **`drop-shadow`** glow, row affordance + active strip; reduced-motion uses a smaller scale.
+
+---
+
+### Prompt
+finally, this is a cure logic feature! the link with local time!
+be sure the make it separate item!
+be sure the make it separate item!
+
+here is the description: for first task
+1. we are going to take a look at local time, if the local time has passed, then we can't register for it
+=> add a selection in the register to select which concert you want to attend.
+and for those who are finished, just add a "-- ended" and disable it (stays there, but is disabled)
+
+
+and for debugging purpose, we will set the tokyo one to 5.1
+
+### Outcome
+Added **`#reg-concert`** to **`#lottery-register-form`** with help copy. **`isConcertRegistrationClosed()`** + **`registrationConcertsList`** in **`initLotteryRegistration()`**: load **`data/concerts.json`**, build options with **`formatConcertDateTime()`**, append **` -- ended`** and **`disabled`** when **`Date.now() >= new Date(startsAt)`**; submit guards closed picks. New **Components** bullet **Concert registration window (local time)** in **`FEATURES.md`** (lottery bullet points at it). Tokyo **`startsAt`** set to **2026-05-01** in **`data/concerts.json`** for debugging.
+

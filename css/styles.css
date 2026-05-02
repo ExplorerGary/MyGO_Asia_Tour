@@ -88,6 +88,40 @@ body > #works-float-control {
   font-size: 1.75rem;
   line-height: 1;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55));
+  transform: scale(1);
+  transform-origin: center center;
+  transition:
+    transform 0.2s ease,
+    filter 0.25s ease,
+    color 0.2s ease;
+}
+
+.leaflet-container .map-star-marker-inner.map-star-marker-inner--highlight {
+  transform: scale(1.22);
+  color: #ffe082;
+  filter:
+    drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45))
+    drop-shadow(0 0 10px rgba(255, 193, 7, 0.95))
+    drop-shadow(0 0 22px rgba(255, 230, 150, 0.75));
+}
+
+#tour-dates-tbody tr.tour-date-row {
+  cursor: pointer;
+}
+
+#tour-dates-tbody tr.tour-date-row.tour-date-row--active {
+  box-shadow: inset 3px 0 0 0 var(--bs-warning);
+  background-color: rgba(255, 193, 7, 0.07);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leaflet-container .map-star-marker-inner {
+    transition: none;
+  }
+
+  .leaflet-container .map-star-marker-inner.map-star-marker-inner--highlight {
+    transform: scale(1.08);
+  }
 }
 
 /* Members: JSON accent border + layered drop shadows (--character-accent set inline) */

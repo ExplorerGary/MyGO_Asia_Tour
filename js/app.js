@@ -1,5 +1,23 @@
 /* global $, L */
 
+/** Coordinates + labels for map markers (order matches typical tour listing). */
+var TOUR_MAP_STOPS = [
+  { lat: 35.6762, lng: 139.6503, name: 'Tokyo' },
+  { lat: 31.2304, lng: 121.4737, name: 'Shanghai' },
+  { lat: 25.033, lng: 121.5654, name: 'Taipei' },
+  { lat: 22.3193, lng: 114.1694, name: 'Hong Kong' },
+  { lat: 1.3521, lng: 103.8198, name: 'Singapore' },
+];
+
+/** Set by `initTourMap` — used to sync table hover/click with star markers. */
+var tourMapMarkers = null;
+
+/** Copy of `data/concerts.json` concerts array after registration select loads (submit validation). */
+var registrationConcertsList = null;
+
+var tourTableHoverStopIndex = null;
+var tourTableStickyStopIndex = null;
+
 $(function () {
   initTourMap();
   initConcertsTable();
@@ -9,6 +27,95 @@ $(function () {
 });
 
 /**
+ * @param {L.Marker} marker
+ * @returns {HTMLElement|null}
+ */
+function tourMarkerIconEl(marker) {
+  if (!marker) {
+    return null;
+  }
+  if (typeof marker.getElement === 'function') {
+    return marker.getElement();
+  }
+  return marker._icon || null;
+}
+
+/**
+ * Toggle glow + scale on star markers from table interaction state.
+ */
+function syncTourMarkersTableHighlight() {
+  if (!tourMapMarkers) {
+    return;
+  }
+  tourMapMarkers.forEach(function (marker, i) {
+    var root = tourMarkerIconEl(marker);
+    if (!root) {
+      return;
+    }
+    var inner = root.querySelector('.map-star-marker-inner');
+    if (!inner) {
+      return;
+    }
+    var on =
+      i === tourTableHoverStopIndex || i === tourTableStickyStopIndex;
+    inner.classList.toggle('map-star-marker-inner--highlight', on);
+  });
+}
+
+/**
+ * Map `concert.location` to marker index, or `-1` if unknown.
+ * @param {string} location
+ * @returns {number}
+ */
+function tourStopIndexFromLocation(location) {
+  if (!location) {
+    return -1;
+  }
+  for (var i = 0; i < TOUR_MAP_STOPS.length; i++) {
+    if (TOUR_MAP_STOPS[i].name === location) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+/**
+ * Delegated hover + click on `#tour-dates-tbody` rows with `data-tour-stop-index`.
+ */
+function bindTourDatesToMapMarkers() {
+  var $tbody = $('#tour-dates-tbody');
+  if (!$tbody.length || !tourMapMarkers) {
+    return;
+  }
+
+  $tbody
+    .off('.tourMapLink')
+    .on('mouseenter.tourMapLink', 'tr[data-tour-stop-index]', function () {
+      tourTableHoverStopIndex = +$(this).attr('data-tour-stop-index');
+      syncTourMarkersTableHighlight();
+    })
+    .on('mouseleave.tourMapLink', 'tr[data-tour-stop-index]', function () {
+      tourTableHoverStopIndex = null;
+      syncTourMarkersTableHighlight();
+    })
+    .on('click.tourMapLink', 'tr[data-tour-stop-index]', function () {
+      var idx = +$(this).attr('data-tour-stop-index');
+      if (Number.isNaN(idx)) {
+        return;
+      }
+      if (tourTableStickyStopIndex === idx) {
+        tourTableStickyStopIndex = null;
+        $(this).removeClass('tour-date-row--active');
+      } else {
+        $tbody.find('tr.tour-date-row--active').removeClass('tour-date-row--active');
+        tourTableStickyStopIndex = idx;
+        $(this).addClass('tour-date-row--active');
+      }
+      syncTourMarkersTableHighlight();
+    });
+}
+
+/**
  * Leaflet map for five Asia tour cities (star markers).
  */
 function initTourMap() {
@@ -16,14 +123,6 @@ function initTourMap() {
   if (!$mapEl.length || typeof L === 'undefined') {
     return;
   }
-
-  var tourStops = [
-    { lat: 35.6762, lng: 139.6503, name: 'Tokyo' },
-    { lat: 31.2304, lng: 121.4737, name: 'Shanghai' },
-    { lat: 25.033, lng: 121.5654, name: 'Taipei' },
-    { lat: 22.3193, lng: 114.1694, name: 'Hong Kong' },
-    { lat: 1.3521, lng: 103.8198, name: 'Singapore' },
-  ];
 
   var starIcon = L.divIcon({
     className: 'map-star-marker',
@@ -43,11 +142,13 @@ function initTourMap() {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
 
-  var markers = tourStops.map(function (city, i) {
+  var markers = TOUR_MAP_STOPS.map(function (city, i) {
     return L.marker([city.lat, city.lng], { icon: starIcon }).bindPopup(
       '<strong>' + (i + 1) + '. ' + city.name + '</strong>'
     );
   });
+
+  tourMapMarkers = markers;
 
   var group = L.featureGroup(markers).addTo(map);
   map.fitBounds(group.getBounds().pad(0.12), { maxZoom: 6 });
@@ -68,6 +169,22 @@ function formatConcertDateTime(concert) {
     timeStyle: 'short',
     timeZone: concert.timeZone,
   }).format(d);
+}
+
+/**
+ * Whether the concert’s start instant is in the past (registration closed for that show).
+ * @param { { startsAt: string } } concert
+ * @returns {boolean}
+ */
+function isConcertRegistrationClosed(concert) {
+  if (!concert || !concert.startsAt) {
+    return true;
+  }
+  var startMs = new Date(concert.startsAt).getTime();
+  if (Number.isNaN(startMs)) {
+    return true;
+  }
+  return Date.now() >= startMs;
 }
 
 /**
@@ -92,6 +209,11 @@ function initConcertsTable() {
       $tbody.empty();
       list.forEach(function (concert) {
         var $tr = $('<tr></tr>');
+        var stopIdx = tourStopIndexFromLocation(concert.location);
+        if (stopIdx >= 0) {
+          $tr.addClass('tour-date-row');
+          $tr.attr('data-tour-stop-index', String(stopIdx));
+        }
         $tr.append(
           $('<td></td>').text(formatConcertDateTime(concert)),
           $('<td></td>').text(concert.location),
@@ -99,6 +221,7 @@ function initConcertsTable() {
         );
         $tbody.append($tr);
       });
+      bindTourDatesToMapMarkers();
     })
     .fail(function () {
       $tbody.html(
@@ -510,8 +633,73 @@ function initLotteryRegistration() {
     return;
   }
 
+  var $concert = $('#reg-concert');
   var $hiddenPay = $('#reg-payment-method');
   var $payBtns = $('.reg-payment-btn');
+
+  function concertAtRegistrationIndex(i) {
+    if (!registrationConcertsList || i < 0 || i >= registrationConcertsList.length) {
+      return null;
+    }
+    return registrationConcertsList[i];
+  }
+
+  if ($concert.length) {
+    $.getJSON('data/concerts.json')
+      .done(function (data) {
+        var list = data && data.concerts;
+        registrationConcertsList = Array.isArray(list) ? list : [];
+        $concert.empty();
+        $concert.append(
+          $('<option>', {
+            value: '',
+            text: 'Choose a concert…',
+            disabled: true,
+            selected: true,
+          })
+        );
+        registrationConcertsList.forEach(function (concert, i) {
+          var ended = isConcertRegistrationClosed(concert);
+          var label =
+            concert.location +
+            ' — ' +
+            formatConcertDateTime(concert) +
+            (ended ? ' -- ended' : '');
+          $concert.append(
+            $('<option>', {
+              value: String(i),
+              text: label,
+              disabled: ended,
+            })
+          );
+        });
+        if (!registrationConcertsList.length) {
+          $concert.empty().append(
+            $('<option>', {
+              value: '',
+              text: 'No concerts listed',
+              disabled: true,
+              selected: true,
+            })
+          );
+        }
+      })
+      .fail(function () {
+        registrationConcertsList = null;
+        $concert.empty().append(
+          $('<option>', {
+            value: '',
+            text: 'Could not load concerts',
+            disabled: true,
+            selected: true,
+          })
+        );
+      });
+
+    $concert.on('change', function () {
+      $(this).removeClass('is-invalid');
+    });
+  }
 
   $payBtns.on('click', function () {
     var $btn = $(this);
@@ -523,6 +711,18 @@ function initLotteryRegistration() {
   $form.on('submit', function (e) {
     e.preventDefault();
     e.stopPropagation();
+
+    if ($concert.length) {
+      var raw = $concert.val();
+      var idx = parseInt(raw, 10);
+      var picked = concertAtRegistrationIndex(idx);
+      if (!picked || isConcertRegistrationClosed(picked)) {
+        $concert.addClass('is-invalid');
+        $form.addClass('was-validated');
+        return;
+      }
+      $concert.removeClass('is-invalid');
+    }
 
     if (!$form[0].checkValidity()) {
       $form.addClass('was-validated');
