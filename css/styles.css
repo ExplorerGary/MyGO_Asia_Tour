@@ -592,16 +592,23 @@ body > #works-float-control {
   font-family: var(--site-nav-font);
   color: var(--site-color-main);
   text-align: center;
-  font-size: 1.35rem;
+  /* +60% vs previous 1.35rem */
+  font-size: calc(1.35rem * 1.6);
   font-weight: 400;
   letter-spacing: 0.04em;
   line-height: 1.2;
   margin-bottom: 1rem !important;
 }
 
+.works-tryout-panel .works-preview-song-list.flex-grow-1 {
+  min-height: 0;
+}
+
 .works-preview-song-list li {
   display: flex;
   justify-content: center;
+  /* +60% vs Bootstrap small / body in list (loading, errors) */
+  font-size: calc(0.875rem * 1.6);
 }
 
 .works-preview-track-btn {
@@ -612,10 +619,12 @@ body > #works-float-control {
   width: 100%;
   text-align: center;
   font-family: var(--site-nav-font);
+  /* +60% vs typical btn-sm 0.875rem */
+  font-size: calc(0.875rem * 1.6);
   color: var(--site-color-main);
   border: 2px solid var(--site-color-main);
   background-color: color-mix(in srgb, var(--bs-body-bg) 88%, var(--site-color-accent) 12%);
-  padding-block: 0.45rem;
+  padding-block: calc(0.45rem * 1.6);
   letter-spacing: 0.03em;
   transition:
     background-color 0.2s ease,

@@ -540,3 +540,22 @@ decorate it! using our palettes
 ### Outcome
 **`index.html`**: removed both helper **`<p>`** blocks; **`works-preview-section`**, **`works-preview-mv-label`**, **`works-preview-mv-wrap`** (dropped generic **`shadow`**); **`works-tryout-panel`** / **`works-tryout-heading`** / **`works-preview-song-list`**. **`js/app.js`**: preview list buttons use **`works-preview-track-btn`**. **`css/styles.css`**: MV label + try-out heading **Russo One** + main blue; MV frame + panel borders/shadows/tint; list **`li`** flex-center; buttons **`max-width: 60%`**, centered type, hover/focus/**`active`** accent. **`FEATURES.md`** works preview bullet updated.
 
+---
+
+### Prompt
+apply same decoration to Ignite the Beat as Members Spotlight
+
+also
+make the video and songs table the same row
+
+### Outcome
+Renamed shared title styles to **`spotlight-section-heading`** (**Russo One**, main blue, **`clamp`**, accent **`::after`**); **Members Spotlight** and **Ignite the Beat** both use it. **`#row-preview`** grid uses **`col-6`** + **`align-items-stretch`** + flex columns so MV and try-out panel stay **one row** at all breakpoints; try-out panel **`flex-grow-1`**, list **`flex-grow-1`**, audio **`mt-auto pt-3`**. **`FEATURES.md`** updated.
+
+---
+
+### Prompt
+increase font size in the song table, all by 60%
+
+### Outcome
+**`css/styles.css`**: try-out **`works-tryout-heading`**, **`#preview-song-list > li`**, and **`works-preview-track-btn`** use **`calc(... * 1.6)`** for type; button **`padding-block`** also **×1.6**. **`FEATURES.md`** works preview bullet updated.
+
