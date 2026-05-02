@@ -584,7 +584,9 @@ function initSongsPreview() {
 
       $songList.empty();
       normalized.forEach(function (s, i) {
-        var $btn = $('<button type="button" class="btn btn-outline-dark btn-sm w-100 text-start"></button>')
+        var $btn = $(
+          '<button type="button" class="btn btn-sm works-preview-track-btn"></button>'
+        )
           .text(s.name)
           .attr('data-song-index', String(i));
         $songList.append($('<li></li>').append($btn));

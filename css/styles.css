@@ -443,7 +443,8 @@ body > #works-float-control {
   background-image: none;
 }
 
-.members-spotlight-heading {
+/* Shared section title (Members Spotlight, Ignite the Beat, …) */
+.spotlight-section-heading {
   font-family: var(--site-nav-font);
   color: var(--site-color-main);
   font-size: clamp(2rem, 1.5rem + 2.5vw, 3rem);
@@ -456,7 +457,7 @@ body > #works-float-control {
   padding-bottom: 0.85rem;
 }
 
-.members-spotlight-heading::after {
+.spotlight-section-heading::after {
   content: '';
   display: block;
   width: min(12rem, 55vw);
@@ -474,7 +475,7 @@ body > #works-float-control {
 }
 
 @supports not (color: color-mix(in srgb, white 50%, black)) {
-  .members-spotlight-heading::after {
+  .spotlight-section-heading::after {
     box-shadow: 0 0 10px rgba(51, 101, 138, 0.35);
   }
 }
@@ -558,6 +559,104 @@ body > #works-float-control {
   .character-card .character-flip-inner {
     transition: none;
   }
+}
+
+/* Works preview — MV label, frame, try-out panel (main + accent + Russo One) */
+.works-preview-mv-label {
+  font-family: var(--site-nav-font);
+  color: var(--site-color-main);
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+
+.works-preview-mv-wrap {
+  border: 3px solid var(--site-color-main);
+  box-shadow: 0 0.3rem 0.85rem rgba(47, 72, 88, 0.22);
+}
+
+.works-tryout-panel {
+  border: 2px solid var(--site-color-main);
+  background-color: color-mix(in srgb, var(--site-color-main) 9%, var(--bs-body-bg));
+  box-shadow: 0 0.35rem 1rem rgba(47, 72, 88, 0.12);
+}
+
+@supports not (color: color-mix(in srgb, white 50%, black)) {
+  .works-tryout-panel {
+    background-color: rgba(248, 249, 250, 0.92);
+  }
+}
+
+.works-tryout-heading {
+  font-family: var(--site-nav-font);
+  color: var(--site-color-main);
+  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  margin-bottom: 1rem !important;
+}
+
+.works-preview-song-list li {
+  display: flex;
+  justify-content: center;
+}
+
+.works-preview-track-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 60%;
+  width: 100%;
+  text-align: center;
+  font-family: var(--site-nav-font);
+  color: var(--site-color-main);
+  border: 2px solid var(--site-color-main);
+  background-color: color-mix(in srgb, var(--bs-body-bg) 88%, var(--site-color-accent) 12%);
+  padding-block: 0.45rem;
+  letter-spacing: 0.03em;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+@supports not (color: color-mix(in srgb, white 50%, black)) {
+  .works-preview-track-btn {
+    background-color: #fff;
+  }
+}
+
+.works-preview-track-btn:hover {
+  color: #fff;
+  background-color: var(--site-color-accent);
+  border-color: var(--site-color-accent);
+  box-shadow: 0 0.2rem 0.65rem rgba(51, 101, 138, 0.35);
+}
+
+.works-preview-track-btn:focus-visible {
+  color: #fff;
+  background-color: var(--site-color-accent);
+  border-color: var(--site-color-accent);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--site-color-accent) 45%, transparent);
+}
+
+@supports not (color: color-mix(in srgb, white 50%, black)) {
+  .works-preview-track-btn:focus-visible {
+    box-shadow: 0 0 0 0.2rem rgba(51, 101, 138, 0.45);
+  }
+}
+
+.works-preview-track-btn.active {
+  color: #fff !important;
+  background-color: var(--site-color-accent) !important;
+  border-color: var(--site-color-accent) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+    0 0.25rem 0.75rem rgba(51, 101, 138, 0.4);
 }
 
 /* Works preview: floating play / pause control */

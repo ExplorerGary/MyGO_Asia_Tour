@@ -516,3 +516,27 @@ OK, the container of row-members shall be transparent, we want to see the blurre
 ### Outcome
 Replaced **`members-spotlight`** gradient with **`background-color: transparent`** and **`background-image: none`**; same on **`.members-spotlight > .container`** so **`page-bg-decoration`** shows through. **`FEATURES.md`** members bullet updated (gradient sentence removed).
 
+---
+
+### Prompt
+OK, for Music video
+
+
+delete "While the song preview is playing, click the video to pause it. When the song is paused, you can use the YouTube player normally. Resume audio with the bar or the floating control."
+
+set music vide to be Russo One, main blue
+
+for Try-out tracks block
+
+delete the "Use the list below or Ignite the Beat in the nav — same tracks. Choose a work to load the MV and play the MP3 preview (click required for audio)."
+
+for "Try-out tracks" => text alignment = center
+
+for text in buttons => text alignment = center
+for button width => max 60% of the container width
+
+decorate it! using our palettes
+
+### Outcome
+**`index.html`**: removed both helper **`<p>`** blocks; **`works-preview-section`**, **`works-preview-mv-label`**, **`works-preview-mv-wrap`** (dropped generic **`shadow`**); **`works-tryout-panel`** / **`works-tryout-heading`** / **`works-preview-song-list`**. **`js/app.js`**: preview list buttons use **`works-preview-track-btn`**. **`css/styles.css`**: MV label + try-out heading **Russo One** + main blue; MV frame + panel borders/shadows/tint; list **`li`** flex-center; buttons **`max-width: 60%`**, centered type, hover/focus/**`active`** accent. **`FEATURES.md`** works preview bullet updated.
+

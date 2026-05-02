@@ -153,7 +153,7 @@
       <!-- Row 4: band members (cards from data/characters.json) -->
       <section id="row-members" class="py-5 border-bottom members-spotlight">
         <div class="container">
-          <h2 class="text-center members-spotlight-heading">Members Spotlight</h2>
+          <h2 class="text-center spotlight-section-heading">Members Spotlight</h2>
           <div
             id="members-root"
             class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5 g-4 justify-content-center"
@@ -164,30 +164,26 @@
       </section>
 
       <!-- Row 5: works preview (MV + audio) -->
-      <section id="row-preview" class="py-5 border-bottom" aria-label="Works preview">
+      <section id="row-preview" class="py-5 border-bottom works-preview-section" aria-label="Works preview">
         <div class="container">
-          <h2 class="h4 text-center mb-4">Ignite the Beat</h2>
-          <div class="row g-4">
-            <div class="col-md-6">
-              <p class="small text-secondary mb-2">Music video</p>
-              <p class="small text-muted mb-2">
-                While the song preview is playing, click the video to pause it. When the song is paused, you can use
-                the YouTube player normally. Resume audio with the bar or the floating control.
-              </p>
+          <h2 class="text-center spotlight-section-heading">Ignite the Beat</h2>
+          <div class="row g-3 g-md-4 align-items-stretch">
+            <div class="col-6 d-flex flex-column works-preview-mv-col">
+              <p class="works-preview-mv-label mb-2">Music video</p>
               <div
                 id="preview-mv-wrap"
-                class="ratio ratio-16x9 bg-dark rounded overflow-hidden shadow"
+                class="ratio ratio-16x9 bg-dark rounded overflow-hidden works-preview-mv-wrap flex-shrink-0"
               >
                 <div id="preview-mv-host" class="w-100 h-100"></div>
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="border rounded p-3 bg-light">
-                <p class="mb-2 fw-semibold text-body">Try-out tracks</p>
-                <p class="small text-secondary mb-3">
-                  Use the list below or <strong>Ignite the Beat</strong> in the nav — same tracks. Choose a work to load the MV and play the MP3 preview (click required for audio).
-                </p>
-                <ul id="preview-song-list" class="list-unstyled mb-0 d-grid gap-2">
+            <div class="col-6 d-flex flex-column works-preview-tryout-col">
+              <div class="works-tryout-panel rounded p-3 flex-grow-1 d-flex flex-column">
+                <p class="works-tryout-heading mb-3">Try-out tracks</p>
+                <ul
+                  id="preview-song-list"
+                  class="list-unstyled mb-0 d-grid gap-2 works-preview-song-list"
+                >
                   <li class="text-secondary small">Loading works…</li>
                 </ul>
                 <audio
