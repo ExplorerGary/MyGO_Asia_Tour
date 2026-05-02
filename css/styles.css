@@ -1,5 +1,41 @@
 /* Project styles live here. */
 
+/* Decoration — fixed blurred art background (image/background.webp) */
+.page-bg-decoration {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url('../image/background.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  opacity: 0.4;
+  filter: blur(12px);
+  transform: scale(1.08);
+  transform-origin: center center;
+}
+
+/* Keep #row-nav sticky-top — do not set position: relative on header */
+body > main,
+body > footer,
+body > #works-float-control {
+  position: relative;
+  z-index: 1;
+}
+
+#row-nav {
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-bg-decoration {
+    filter: blur(4px);
+    transform: none;
+  }
+}
+
 /* Hero: key art — image/key_visual.webp intrinsic 1000×400 (2.5:1 wide banner) */
 #row-hero .hero-key-visual {
   position: relative;
@@ -159,5 +195,63 @@
   z-index: 2;
   cursor: pointer;
   background: transparent;
+}
+
+/* Lottery: stadium tier diagram (C → B → A → S) */
+.stadium-tier-map {
+  max-width: 22rem;
+}
+
+.stadium-ring {
+  position: relative;
+  border-radius: 0.5rem;
+  border-style: solid;
+  border-width: 14px;
+  padding: 1.35rem 1.15rem 1.15rem 1.35rem;
+  min-height: 2.5rem;
+}
+
+.stadium-ring--c {
+  border-color: #6c757d;
+  background: rgba(108, 117, 125, 0.12);
+}
+
+.stadium-ring--b {
+  border-color: #0dcaf0;
+  background: rgba(13, 202, 240, 0.1);
+}
+
+.stadium-ring--a {
+  border-color: #0d6efd;
+  background: rgba(13, 110, 253, 0.08);
+}
+
+.stadium-ring--s {
+  border-color: #ffc107;
+  background: rgba(255, 193, 7, 0.18);
+  min-height: 5.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.stadium-ring-label {
+  position: absolute;
+  top: 0.35rem;
+  left: 0.45rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.stadium-ring-label--center {
+  position: static;
+  font-size: 1.5rem;
+  letter-spacing: 0.05em;
+}
+
+.reg-payment-btn.active {
+  box-shadow: inset 0 0 0 2px var(--bs-primary);
 }
 

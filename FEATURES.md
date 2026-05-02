@@ -1,6 +1,6 @@
 # Features
 
-MyGo!!!!! Asia Tour promo page — completed components are listed below with a checkmark and how each works.
+MyGo!!!!! Asia Tour promo page — **required behavior** is captured in **Components** (each with a checkmark and how it works). Anything after that is **Decoration**: optional **unique visual / motion art** only—not needed for the site to “work.” We list decorations **aside** here as we add them.
 
 ## Components
 
@@ -8,7 +8,7 @@ MyGo!!!!! Asia Tour promo page — completed components are listed below with a 
 
 - [x] **Hero key visual (`#row-hero`)** — **Final:** Full-width `col-12` hero shows `image/key_visual.webp` (**1000×400** px, wide banner). The wrapper uses **`aspect-ratio: 1000 / 400`**, so hero height tracks viewport width (no fixed **vh** that fought the new art). The `<img>` is absolutely positioned and **`object-fit: fill`** inside that box (same aspect as the file → no skew). **`width` / `height`** on the tag match the file for layout stability. Black fallback behind the block; overlays/interactions can be added later.
 
-- [x] **Footer (`site-footer`)** — Dark footer with **`mt-auto`** so it sits at the bottom of the page flex column. Inside one wrapper **`.site-footer-content`**: **row 1** is a centered nav of four Bootstrap Icons (`twitter-x`, `facebook`, `instagram`, `tiktok`) linking to the official BanG Dream accounts with **`target="_blank"`** and **`rel="noopener noreferrer"`**; **row 2** is the fictional-site / educational disclaimer plus © notices. Icons use **`aria-label`** on links for accessibility.
+- [x] **Footer (`site-footer`)** — Dark footer with **`mt-auto`** so it sits at the bottom of the page flex column. Inside one wrapper **`.site-footer-content`**: **row 1** is a centered nav of four Bootstrap Icons (`twitter-x`, `facebook`, `instagram`, `tiktok`) linking to the official BanG Dream accounts with **`target="_blank"`** and **`rel="noopener noreferrer"`**; **row 2** is the fictional-site / educational disclaimer plus © notices; **row 3** (below copyright) is the **simulation** notice (no data saved/sent; class / vibe-coding; submit surprise). Icons use **`aria-label`** on links for accessibility.
 
 - [x] **Asia tour map (`#tour-map`)** — Leaflet with OpenStreetMap tiles, five stops in order (Tokyo → Singapore) with shared **Bootstrap Icon** `bi-star-fill` **`divIcon`** markers, **`fitBounds`** over Asia. Initialized from **`initTourMap()`** in **`js/app.js`**.
 
@@ -18,3 +18,10 @@ MyGo!!!!! Asia Tour promo page — completed components are listed below with a 
 
 - [x] **Works preview (`#row-preview`)** — Section titled **Works preview**: MV (**`#preview-mv-host`**) + audio (**`#works-preview-audio`**). **`data/songs.json`** **`songs`** entries include **`name`**, **`audio`** (MP3 path under **`audio/`**), and **`iframe`** embed HTML. **`initSongsPreview()`** normalizes each work (**YouTube embed `src` + `audio` path**); **`#preview-song-list`** and **`#js-nav-song-list`** share **`data-song-index`** and call **`applyWorkSelection()`** — updates MV, sets **`audio.src`**, highlights the active list button, and **`.play()`** on user click (initial load shows first MV + sets `src` without autoplay). Dropdown header **Preview works**. **Floating control** **`#works-float-control`**: fixed circular button (Bootstrap Icon play/pause); until the user picks a work from the nav or list, the first tap **randomly** selects a work and plays; afterward it **toggles** play/pause. **`updateWorksFloatControl()`** syncs icon + **`aria-label`** with **`play` / `pause` / `ended`** on the audio element. Hidden if JSON fails to load. **MV vs song:** **`pointer-events: none` on the iframe was removed** (it had blocked YouTube). Instead **`renderSongPreview()`** adds **`.preview-mv-song-pause-overlay`**; **`syncSongPauseOverlay()`** shows it only while the **MP3 is playing**; clicking the overlay pauses the song. When audio is paused the overlay is hidden so the **YouTube embed is clickable** again.
 
+- [x] **Lottery registration (`#row-register`)** — Two columns: **tier diagram** (nested **`.stadium-ring`** blocks **C → B → A → S** with labels; CSS in **`css/styles.css`**) and **`#lottery-register-form`** in a card: **tier** `<select>`, **ticket count** (`1`–`10`), **payment** as four **`reg-payment-btn`** toggles (**PayPal** default dream, **Google Pay**, **credit card**, **Alipay**) with Bootstrap Icons + **`#reg-payment-method`** hidden field, **first / last / email** inputs, **Register for lottery** submit. **`initLotteryRegistration()`** handles payment **`active`** state and **`submit`**: **no server / no storage** — client-side validation only, then opens the classic **rick-roll** YouTube URL in a **new tab**. The simulation disclaimer lives in the **footer** (third row under copyright), not in this section.
+
+## Decoration (visual art only)
+
+Optional effects listed **aside** from core components. Each line is a distinct look / feel / motion experiment—not required functionality.
+
+- **Fixed blurred backdrop** — **`page-bg-decoration`** (first child of **`body`**) paints **`image/background.webp`** as **`background-attachment: fixed`** + **`cover`**, with **`opacity: ~0.4`**, **`filter: blur(12px)`**, and slight **`scale(1.08)`** so edges stay soft. **`pointer-events: none`**. **`body > main`**, **`footer`**, **`#works-float-control`**: **`position: relative; z-index: 1`**; **`#row-nav`**: **`z-index: 2`** only so **`sticky-top`** is not overridden. **`prefers-reduced-motion`**: lighter blur, no scale.

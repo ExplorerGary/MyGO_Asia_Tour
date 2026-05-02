@@ -296,3 +296,77 @@ emmm., something went wrong. The user now is unable to play mv. Think about it a
 ### Outcome
 **`pointer-events: none`** on the YouTube iframe had blocked all MV interaction. Replaced with a **`.preview-mv-song-pause-overlay`** (transparent, absolutely positioned) toggled by **`syncSongPauseOverlay()`** only while the **MP3 is playing**; overlay click pauses audio. When audio is paused the overlay is **`d-none`** so **YouTube receives clicks** again. Delegated **`click.previewSongPause`** on **`#preview-mv-wrap`**; **`renderSongPreview()`** appends iframe + overlay. **`FEATURES.md`** updated.
 
+---
+
+### Prompt
+OK, that concludes the work-preview row
+
+finally, lets go with the register part;
+divide it into 2 parts:
+the tier display, and the form it self.
+
+tider display is a composite img of four rectangles, the most inner is makred with S
+one outer line part is called A, then B, then C>
+that means our stadium has 4 tiers
+
+then, forthe form part:
+we need, tier selection
+number of ticket needed
+input their payment method (besure to allow paypal, this is my dream)
+
+thi is just a simulation, so you don't have to worry about security, besure that we won't store any thing in our system. This is just a rick roll page.
+
+OK, back to the form
+tier selection
+payment methods: four buttons: paypal. google pay, credit card, and alipay
+use the bootstrap icons and text to describe them
+user info: first name, last name, email. 
+and one button: register for lottery (as those live watchers are always, randomly selected)
+
+OK, start the Registration
+
+### Outcome
+Rebuilt **`#row-register`**: left **four nested tier rings** (**S** center → **A**, **B**, **C**) with **`stadium-tier-map`** / **`stadium-ring`** styles; right **card** with **`#lottery-register-form`** (tier select, ticket **`number`**, four **payment** icon buttons + hidden **`payment`** default **PayPal**, name + email fields, **Register for lottery** submit). **`initLotteryRegistration()`** toggles **`.active`** on payment buttons; submit **`preventDefault`**, Bootstrap **`was-validated`**, then **`window.open`** rick-roll URL — **no persistence**. Disclaimer copy on-page. **`FEATURES.md`** + **`PROMPT_LOG.md`** updated.
+
+---
+
+### Prompt
+OK, here is the correct alipay: <i class="bi bi-alipay"></i>
+
+by the way, be sure the link them into here: https://www.youtube.com/watch?v=dQw4w9WgXcQ 
+the rick roll!
+
+### Outcome
+Swapped the Alipay payment button icon to **`bi-alipay`**. Confirmed lottery submit still opens **[Rick Astley — Never Gonna Give You Up](https://www.youtube.com/watch?v=dQw4w9WgXcQ)** via **`window.open`** in **`initLotteryRegistration()`** (`js/app.js`).
+
+---
+
+### Prompt
+OK, finally, move this "Simulation only: nothing you enter is saved or sent anywhere. This page is for class / vibe-coding fun (including a little surprise when you submit)." into the footer part, below the copy right infos
+
+that concludes the register and footer
+
+### Outcome
+Removed the simulation paragraph from **`#row-register`** (kept the **Lottery registration** heading spacing). Appended a **third row** inside **`.site-footer-content`** below the copyright line with the same **simulation** copy, **`text-white-50`**, and a top border for separation. Updated **`FEATURES.md`** for footer + lottery bullets.
+
+---
+
+### Prompt
+OK, all necessary functions are completed.
+from then on, all features will be decorations, and they shall be listed aside. as they are unique visual art effect!
+do you understand?
+
+### Outcome
+Acknowledged: **core features are done**; further work is **decoration-only** (unique visual / motion art), tracked **separately** from the main component checklist. Added intro copy plus a **## Decoration (visual art only)** section in **`FEATURES.md`** for future decorative bullets.
+
+---
+
+### Prompt
+OK, decoration one:
+our @image/background.webp is going to be used as background, and will stay fixed when we scroll down
+
+in addtion, we are going to make it Gaussian blur, or add some transparecy of it
+
+### Outcome
+Added **`.page-bg-decoration`** in **`index.html`** with **`image/background.webp`** in **`css/styles.css`** (`url('../image/background.webp')`): **`position: fixed`**, **`background-attachment: fixed`**, **`cover`**, **`opacity: 0.4`**, **`filter: blur(12px)`**, slight **`scale(1.08)`** to hide blur fringe. Raised **`main`**, **`footer`**, **`#works-float-control`** with **`position: relative; z-index: 1`**; **`#row-nav`** gets **`z-index: 2`** only so **`sticky-top`** is not replaced by **`position: relative`**. Reduced-motion variant. Logged as first **Decoration** bullet in **`FEATURES.md`**.
+

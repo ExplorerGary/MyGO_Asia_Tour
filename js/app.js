@@ -5,6 +5,7 @@ $(function () {
   initConcertsTable();
   initMembersSection();
   initSongsPreview();
+  initLotteryRegistration();
 });
 
 /**
@@ -498,4 +499,36 @@ function initSongsPreview() {
         );
       }
     });
+}
+
+/**
+ * Lottery registration UI: payment toggles + simulated submit (nothing stored).
+ */
+function initLotteryRegistration() {
+  var $form = $('#lottery-register-form');
+  if (!$form.length) {
+    return;
+  }
+
+  var $hiddenPay = $('#reg-payment-method');
+  var $payBtns = $('.reg-payment-btn');
+
+  $payBtns.on('click', function () {
+    var $btn = $(this);
+    $payBtns.removeClass('active');
+    $btn.addClass('active');
+    $hiddenPay.val(String($btn.data('payment') || 'paypal'));
+  });
+
+  $form.on('submit', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!$form[0].checkValidity()) {
+      $form.addClass('was-validated');
+      return;
+    }
+
+    window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank', 'noopener,noreferrer');
+  });
 }
