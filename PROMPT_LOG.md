@@ -107,3 +107,38 @@ that concludes the hero image function. But later we will add more feature to it
 ### Outcome
 Replaced the hero placeholder with `image/key_visual.webp` in `#row-hero` (full-width `col-12`), using `.hero-key-visual` / `.hero-key-visual-img` styles for a large (~75vh) full-bleed image with `object-fit: cover` and a black background fallback. Logged the hero image as a completed feature in `FEATURES.md` with notes that additional hero behaviors can be layered on later.
 
+---
+
+### Prompt
+OK, one final fix, I am not happy with the height/width of the current hero img.
+the current way climped the top, which is not ideal
+
+to fix:
+1. increase the height of the img
+2. change object-fix to fill
+
+hint: you can read the height and width of the origin .webp to determin a suitable figure for our adjjustment
+
+### Outcome
+Read `key_visual.webp` dimensions (**1000×707**). Updated hero CSS: raised block/image height to **90vh** (and `min-height: 360px` on the image), switched to **`object-fit: fill`**, removed `object-position` so the full bitmap maps into the hero box without `cover` cropping the top. Documented intrinsic size in `css/styles.css` comments and refreshed the hero bullet in `FEATURES.md`.
+
+---
+
+### Prompt
+regarding the conda env: please use the now_with_cuda env, you can find all necessary pack there
+
+### Outcome
+Used **`conda run -n now_with_cuda`** to read the WebP size with Pillow (PIL) in that environment. For future image or Python checks in this project, use the same env so dependencies match your machine.
+
+---
+
+### Prompt
+OK, run it again, as I am not happy with the image I selected.
+so I replaced the image, 
+now you shall check the height and width, and adjust accordingly
+
+then, we conclude the hero part
+
+### Outcome
+Re-measured `image/key_visual.webp` with **`conda run -n now_with_cuda`** (Pillow): **1000×400** px — a shorter, wider banner than the previous asset. Replaced the fixed **90vh** hero with a wrapper **`aspect-ratio: 1000 / 400`** and an absolutely positioned image using **`object-fit: fill`**, so sizing follows the true proportions instead of stretching to viewport height. Set HTML **`width="1000"`** **`height="400"`** on the hero `<img>`. Treated the hero as **done** for this phase and updated **`FEATURES.md`** accordingly.
+
