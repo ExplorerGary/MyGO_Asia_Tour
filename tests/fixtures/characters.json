@@ -1,0 +1,39 @@
+{
+  "characters": [
+    {
+      "name": "Anon Chihaya",
+      "position": "Gt.1",
+      "img_front": "image/anon_front.webp",
+      "img_end": "image/anon_end.webp",
+      "color": "#E78E9A"
+    },
+    {
+      "name": "Soyo Nagasaki",
+      "position": "Ba.",
+      "img_front": "image/soyo_front.webp",
+      "img_end": "image/soyo_end.webp",
+      "color": "#F5DE94"
+    },
+    {
+      "name": "Tomori Takamatsu",
+      "position": "Vo.",
+      "img_front": "image/tmr_front.webp",
+      "img_end": "image/tmr_end.webp",
+      "color": "#8EBAD9"
+    },
+    {
+      "name": "Taki Shina",
+      "position": "Dr.",
+      "img_front": "image/taki_front.webp",
+      "img_end": "image/taki_end.webp",
+      "color": "#7B7AA8"
+    },
+    {
+      "name": "Rana Kaname",
+      "position": "Gt.2",
+      "img_front": "image/rana_front.webp",
+      "img_end": "image/rana_end.webp",
+      "color": "#98DA83"
+    }
+  ]
+}

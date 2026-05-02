@@ -22,6 +22,8 @@ MyGo!!!!! Asia Tour promo page — **required behavior** is captured in **Compon
 
 - [x] **Lottery registration (`#row-register`)** — **`register-section`**: tinted **gradient** + **accent** top rule. Title **`spotlight-section-heading`**. **Stadium column:** **`register-subheading`** / **`register-intro`** (**Russo One** + main for title); **`.stadium-ring`** inside **`#row-register`** recolored to **main / accent** ladder; **S** center **white** on **accent** gradient. **Form column:** **`register-card`** (**main** border, soft fill), **`register-card-title`** (**Russo One**), **labels** main blue, **focus** rings **accent**, **`reg-payment-btn`** main outline → **accent** fill when **hover** / **`active`**, **`register-submit-btn`** **accent** solid. **Concert** **`#reg-concert`**, **tier**, **tickets**, **payment** + **`initLotteryRegistration()`** behavior unchanged (**rick-roll** new tab). Simulation copy in **footer** only.
 
+- [x] **Unit tests** — **Jest** (**`npm test`**, **`jest.config.js`**). **`tests/concert-time.test.js`** (**Node** env): **`formatConcertDateTime`** / **`isConcertRegistrationClosed`** (**`js/concert-time.js`**). **`tests/jquery-json.test.js`** (**`@jest-environment jsdom`**): loads **`js/app.js`** with **`jquery`**, **`$.getJSON`** mocked to **`tests/fixtures/*.json`**, then asserts **tour table**, **members** cards + mobile picker, **works preview** MV/list/audio wiring, and **lottery** concert **`<select>`** match JSON-driven jQuery behavior. Time-sensitive cases use **`jest.useFakeTimers()`** / **`jest.setSystemTime()`** where needed.
+
 ## Decoration (visual art only)
 
 Optional effects listed **aside** from core components. Each line is a distinct look / feel / motion experiment—not required functionality.

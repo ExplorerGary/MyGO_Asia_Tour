@@ -576,3 +576,13 @@ it now stuck at the bottom of the footer, put it back to the orignal place
 ### Outcome
 **`css/styles.css`**: removed **`#works-float-control`** from **`body > … { position: relative; z-index: 1 }`** (that rule was for stacking over **`page-bg-decoration`**). **`position: relative` there had overridden **`.works-float-ball`’s `position: fixed`**, so the ball laid out after the footer. **`FEATURES.md`** Decoration backdrop bullet corrected.
 
+---
+
+## 2026-05-01
+
+### Prompt
+OK — add some tests to see if our dynamic content display using JSON and jQuery is correct.
+
+### Outcome
+Added **`tests/jquery-json.test.js`** (**`@jest-environment jsdom`**) with **`jquery`** and **`jest-environment-jsdom`**. Each case builds minimal DOM (tour **`<tbody>`**, **`#members-root`**, preview list + MV host + audio, nav list stub, lottery form), assigns **`global.$`** / **`formatConcertDateTime`** from **`js/concert-time.js`**, mocks **`$.getJSON`** (async resolve/reject per URL), **`require('js/app.js')`**, then asserts rows, member cards + Tomori default picker, YouTube **iframe** / active track / **`audio.src`**, and **`#reg-concert`** options (including error paths). New fixtures **`tests/fixtures/characters.json`** and **`tests/fixtures/songs.json`**. **`package.json`**, **`tests/README.md`**, and **`FEATURES.md`** unit-test bullet updated. **`PROMPT_LOG.md`** entries resumed for this date.
+

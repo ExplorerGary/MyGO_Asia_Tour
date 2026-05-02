@@ -1,0 +1,34 @@
+{
+  "concerts": [
+    {
+      "location": "Tokyo",
+      "venue": "Tokyo Dome City Hall",
+      "startsAt": "2026-05-01T10:00:00+09:00",
+      "timeZone": "Asia/Tokyo"
+    },
+    {
+      "location": "Shanghai",
+      "venue": "Mercedes-Benz Arena",
+      "startsAt": "2026-05-30T19:30:00+08:00",
+      "timeZone": "Asia/Shanghai"
+    },
+    {
+      "location": "Taipei",
+      "venue": "Taipei Arena",
+      "startsAt": "2026-06-21T19:00:00+08:00",
+      "timeZone": "Asia/Taipei"
+    },
+    {
+      "location": "Hong Kong",
+      "venue": "AsiaWorld–Arena",
+      "startsAt": "2026-07-11T20:00:00+08:00",
+      "timeZone": "Asia/Hong_Kong"
+    },
+    {
+      "location": "Singapore",
+      "venue": "Singapore Indoor Stadium",
+      "startsAt": "2026-08-15T20:00:00+08:00",
+      "timeZone": "Asia/Singapore"
+    }
+  ]
+}

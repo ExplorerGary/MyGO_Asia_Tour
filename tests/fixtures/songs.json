@@ -1,0 +1,19 @@
+{
+  "songs": [
+    {
+      "name": "Mayoiuta",
+      "audio": "audio/Mayoiuta.mp3",
+      "iframe": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/w-Gvclnnfpc?si=Vc_DOlP50yV8pX0T\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+    },
+    {
+      "name": "Utakotoba",
+      "audio": "audio/Utakotoba.mp3",
+      "iframe": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/wJ-OebTVyvk?si=-kwNw6wnyfFmN3A4\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+    },
+    {
+      "name": "Ichijitsusenshu",
+      "audio": "audio/Ichijitsusenshu.mp3",
+      "iframe": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/MaogbGr8Qhg?si=Unjw6Ae1GIvtQwMK\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+    }
+  ]
+}

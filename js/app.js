@@ -194,39 +194,6 @@ function initTourMap() {
 }
 
 /**
- * Format a concert start time in the venue's IANA time zone (local civil time + offset).
- * @param { { startsAt: string, timeZone: string } } concert
- * @returns {string}
- */
-function formatConcertDateTime(concert) {
-  var d = new Date(concert.startsAt);
-  if (Number.isNaN(d.getTime())) {
-    return concert.startsAt;
-  }
-  return new Intl.DateTimeFormat('en-US', {
-    dateStyle: 'full',
-    timeStyle: 'short',
-    timeZone: concert.timeZone,
-  }).format(d);
-}
-
-/**
- * Whether the concert’s start instant is in the past (registration closed for that show).
- * @param { { startsAt: string } } concert
- * @returns {boolean}
- */
-function isConcertRegistrationClosed(concert) {
-  if (!concert || !concert.startsAt) {
-    return true;
-  }
-  var startMs = new Date(concert.startsAt).getTime();
-  if (Number.isNaN(startMs)) {
-    return true;
-  }
-  return Date.now() >= startMs;
-}
-
-/**
  * Build the tour schedule table from `data/concerts.json`.
  */
 function initConcertsTable() {
