@@ -116,6 +116,36 @@ function bindTourDatesToMapMarkers() {
 }
 
 /**
+ * Dashed tour legs in stop order; segment i→i+1 is animated (light blue + glow) if concert i has ended.
+ * @param {L.Map} map
+ * @param {Array<{ startsAt?: string }>|null} concerts same order as `TOUR_MAP_STOPS`, or null on load fail
+ */
+function addTourRoutePolylines(map, concerts) {
+  for (var i = 0; i < TOUR_MAP_STOPS.length - 1; i++) {
+    var a = TOUR_MAP_STOPS[i];
+    var b = TOUR_MAP_STOPS[i + 1];
+    var c = concerts && concerts[i];
+    var ended = !!(c && isConcertRegistrationClosed(c));
+    var animated = ended;
+    var cls =
+      'tour-route-line ' +
+      (animated ? 'tour-route-line--animated' : 'tour-route-line--static');
+    L.polyline(
+      [
+        [a.lat, a.lng],
+        [b.lat, b.lng],
+      ],
+      {
+        className: cls,
+        interactive: false,
+        weight: 2,
+        opacity: 1,
+      }
+    ).addTo(map);
+  }
+}
+
+/**
  * Leaflet map for five Asia tour cities (star markers).
  */
 function initTourMap() {
@@ -152,6 +182,15 @@ function initTourMap() {
 
   var group = L.featureGroup(markers).addTo(map);
   map.fitBounds(group.getBounds().pad(0.12), { maxZoom: 6 });
+
+  $.getJSON('data/concerts.json')
+    .done(function (data) {
+      var list = data && data.concerts;
+      addTourRoutePolylines(map, Array.isArray(list) ? list : null);
+    })
+    .fail(function () {
+      addTourRoutePolylines(map, null);
+    });
 }
 
 /**

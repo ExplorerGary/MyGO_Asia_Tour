@@ -401,3 +401,52 @@ and for debugging purpose, we will set the tokyo one to 5.1
 ### Outcome
 Added **`#reg-concert`** to **`#lottery-register-form`** with help copy. **`isConcertRegistrationClosed()`** + **`registrationConcertsList`** in **`initLotteryRegistration()`**: load **`data/concerts.json`**, build options with **`formatConcertDateTime()`**, append **` -- ended`** and **`disabled`** when **`Date.now() >= new Date(startsAt)`**; submit guards closed picks. New **Components** bullet **Concert registration window (local time)** in **`FEATURES.md`** (lottery bullet points at it). Tokyo **`startsAt`** set to **2026-05-01** in **`data/concerts.json`** for debugging.
 
+---
+
+### Prompt
+and for this one, we are going to have another function improvment in the map
+we shall link the starts by their order
+tokyo -> shanghai -> taipi -> etc.
+
+it will be a dashed, line that goes to the next star
+if a cencert has ended, we will have make the star from this to next animated: going from this to next
+
+say, in our current example, it's tokyo to shanghai
+
+the color shall be light blue and will glow
+
+but non-animated is just dark gray and static, no glow
+
+### Outcome
+**`addTourRoutePolylines(map, concerts)`** draws ordered **`L.polyline`** legs after **`$.getJSON('data/concerts.json')`** inside **`initTourMap()`** (markers + **`fitBounds`** run first so the table can sync immediately; vectors use **`overlayPane`**, below **`markerPane`**). Segment **i → i+1** is animated (classes **`tour-route-line--animated`**, light blue + glow + dash motion) when **`isConcertRegistrationClosed(concerts[i])`**; else **`tour-route-line--static`** (dark gray dashed, no glow). Load failure: all static. CSS targets **`.leaflet-container svg path.tour-route-line-*`**; **`prefers-reduced-motion`** disables the dash animation only. **`FEATURES.md`** map bullet updated.
+
+---
+
+### Prompt
+OK, finally, let's finsh the css decoration of our page:
+#2F4858 will be used as main color
+#33658A will be used as accesscent color
+text will be white
+
+decorate the nav bar
+
+### Outcome
+**`:root`** tokens **`--site-color-main`**, **`--site-color-accent`**, **`--site-nav-text`**. **`index.html`**: **`#row-nav`** uses **`site-header-nav`** (removed **`bg-body-tertiary`**); inner **`nav`** uses **`site-navbar`** instead of **`bg-dark`**. **`css/styles.css`**: main bar fill, accent bottom border, shadow; white **`.nav-link`** with accent hover / open / focus-visible; themed **`dropdown-menu`** + items + divider + **`dropdown-item-text`** states; toggler border + accent focus ring. **`FEATURES.md`**: navbar component line + new **Decoration** bullet **Site chrome tokens + navbar**.
+
+---
+
+### Prompt
+OK, increase the font size of it, and use font: Russo One
+
+### Outcome
+Google Fonts (**preconnect** + **`family=Russo+One`**) in **`index.html`**. **`--site-nav-font`** on **`:root`**; **`#row-nav .site-navbar`** uses **`font-family: var(--site-nav-font)`** with **`font-size: 1.125rem`** (**`1.3rem`** from **`lg`**). **`.nav-link`** **`font-weight: 400`** (Russo One is single-weight). **`FEATURES.md`** decoration bullet updated.
+
+---
+
+### Prompt
+OK, see the nav tabs?
+set them to be flex-end
+
+### Outcome
+**`css/styles.css`**: **`#row-nav .site-navbar .navbar-collapse`** — from **`lg`** up, **`flex-grow: 1`**, **`justify-content: flex-end`**, **`align-items: center`**; below **`lg`**, **`align-items: flex-end`** so stacked links sit on the right. **`index.html`**: removed **`ms-auto`** from **`navbar-nav`** (placement comes from the collapse flex rules).
+
