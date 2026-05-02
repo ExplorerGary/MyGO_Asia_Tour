@@ -273,6 +273,23 @@ function buildPreviewIframe(embedSrc, songName) {
 }
 
 /**
+ * Show a transparent layer over the MV only while the MP3 is playing, so clicks pause the song
+ * without blocking YouTube when audio is paused.
+ */
+function syncSongPauseOverlay() {
+  var el = document.getElementById('works-preview-audio');
+  var $overlay = $('#preview-mv-host .preview-mv-song-pause-overlay');
+  if (!$overlay.length) {
+    return;
+  }
+  if (el && !el.paused) {
+    $overlay.removeClass('d-none');
+  } else {
+    $overlay.addClass('d-none');
+  }
+}
+
+/**
  * @param { { name: string, embedSrc: string } } song
  */
 function renderSongPreview(song) {
@@ -280,11 +297,47 @@ function renderSongPreview(song) {
   if (!$mvHost.length || !song || !song.embedSrc) {
     return;
   }
-  $mvHost.empty().append(buildPreviewIframe(song.embedSrc, song.name));
+  var $iframe = buildPreviewIframe(song.embedSrc, song.name);
+  var $overlay = $('<div/>', {
+    class: 'preview-mv-song-pause-overlay position-absolute top-0 start-0 w-100 h-100 d-none',
+    'aria-hidden': 'true',
+    title: 'Click to pause song preview',
+  });
+  $mvHost.empty().append($iframe, $overlay);
+  syncSongPauseOverlay();
 }
 
 /**
- * Load `data/songs.json`, fill navbar dropdown + preview list, wire MV iframe.
+ * MV + MP3 preview: same indices for `#js-nav-song-list` and `#preview-song-list`.
+ * @param { { name: string, embedSrc: string, audioSrc: string } } song
+ * @param {number} index
+ * @param {boolean} playAudio only true after explicit user activation (click).
+ */
+function applyWorkSelection(song, index, playAudio) {
+  if (!song) {
+    return;
+  }
+  renderSongPreview(song);
+
+  var $audio = $('#works-preview-audio');
+  if ($audio.length && song.audioSrc) {
+    var el = $audio[0];
+    el.src = song.audioSrc;
+    el.load();
+    if (playAudio) {
+      el.play().catch(function () {});
+    }
+  }
+
+  var $btns = $('#preview-song-list button[data-song-index]');
+  $btns.removeClass('active');
+  $btns.filter('[data-song-index="' + index + '"]').addClass('active');
+
+  syncSongPauseOverlay();
+}
+
+/**
+ * Load `data/songs.json`, fill navbar dropdown + preview list, wire MV + audio.
  */
 function initSongsPreview() {
   var $navList = $('#js-nav-song-list');
@@ -293,6 +346,17 @@ function initSongsPreview() {
   if (!$songList.length || !$mvHost.length) {
     return;
   }
+
+  $('#preview-mv-wrap')
+    .off('click.previewSongPause')
+    .on('click.previewSongPause', '.preview-mv-song-pause-overlay', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var el = document.getElementById('works-preview-audio');
+      if (el && !el.paused) {
+        el.pause();
+      }
+    });
 
   $.getJSON('data/songs.json')
     .done(function (data) {
@@ -304,15 +368,16 @@ function initSongsPreview() {
           return;
         }
         var name = raw.name || raw.title || 'Track';
-        var src = extractYouTubeEmbedSrc(raw.iframe);
-        if (!src) {
+        var embedSrc = extractYouTubeEmbedSrc(raw.iframe);
+        var audioSrc = raw.audio && String(raw.audio).trim();
+        if (!embedSrc || !audioSrc) {
           return;
         }
-        normalized.push({ name: name, embedSrc: src });
+        normalized.push({ name: name, embedSrc: embedSrc, audioSrc: audioSrc });
       });
 
       if (!normalized.length) {
-        $songList.html('<li class="text-warning small">No playable songs.</li>');
+        $songList.html('<li class="text-warning small">No playable works (need MV + audio paths).</li>');
         if ($navList.length) {
           $navList.html(
             '<li><span class="dropdown-item-text text-muted small">No tracks</span></li>'
@@ -321,9 +386,18 @@ function initSongsPreview() {
         return;
       }
 
+      function selectByIndex(idx, playAudio) {
+        if (Number.isNaN(idx) || !normalized[idx]) {
+          return;
+        }
+        applyWorkSelection(normalized[idx], idx, playAudio);
+      }
+
+      var userExplicitChoice = false;
+
       if ($navList.length) {
         $navList.empty();
-        $navList.append('<li><h6 class="dropdown-header">Preview tracks</h6></li>');
+        $navList.append('<li><h6 class="dropdown-header">Preview works</h6></li>');
         normalized.forEach(function (s, i) {
           var $btn = $('<button type="button" class="dropdown-item"></button>')
             .text(s.name)
@@ -338,10 +412,10 @@ function initSongsPreview() {
         );
 
         $navList.on('click', 'button[data-song-index]', function () {
+          userExplicitChoice = true;
           var idx = parseInt($(this).attr('data-song-index'), 10);
-          if (!Number.isNaN(idx) && normalized[idx]) {
-            renderSongPreview(normalized[idx]);
-          }
+          selectByIndex(idx, true);
+          updateWorksFloatControl();
         });
       }
 
@@ -354,15 +428,67 @@ function initSongsPreview() {
       });
 
       $songList.on('click', 'button[data-song-index]', function () {
+        userExplicitChoice = true;
         var idx = parseInt($(this).attr('data-song-index'), 10);
-        if (!Number.isNaN(idx) && normalized[idx]) {
-          renderSongPreview(normalized[idx]);
-        }
+        selectByIndex(idx, true);
+        updateWorksFloatControl();
       });
 
-      renderSongPreview(normalized[0]);
+      var $float = $('#works-float-control');
+      var $audio = $('#works-preview-audio');
+
+      function updateWorksFloatControl() {
+        if (!$float.length) {
+          return;
+        }
+        var el = $audio.length ? $audio[0] : null;
+        var paused = !el || el.paused;
+        $float
+          .find('i')
+          .attr('class', paused ? 'bi bi-play-fill fs-4' : 'bi bi-pause-fill fs-4');
+        $float.attr(
+          'aria-label',
+          paused
+            ? 'Play preview, or pick a random work if none chosen yet'
+            : 'Pause work preview'
+        );
+      }
+
+      if ($audio.length) {
+        $audio.on('play pause ended', function () {
+          updateWorksFloatControl();
+          syncSongPauseOverlay();
+        });
+      }
+
+      if ($float.length) {
+        $float.removeClass('d-none');
+        $float.on('click', function () {
+          var el = $audio.length ? $audio[0] : null;
+          if (!el || !normalized.length) {
+            return;
+          }
+          if (!userExplicitChoice) {
+            var ri = Math.floor(Math.random() * normalized.length);
+            userExplicitChoice = true;
+            selectByIndex(ri, true);
+            updateWorksFloatControl();
+            return;
+          }
+          if (el.paused) {
+            el.play().catch(function () {});
+          } else {
+            el.pause();
+          }
+          updateWorksFloatControl();
+        });
+      }
+
+      selectByIndex(0, false);
+      updateWorksFloatControl();
     })
     .fail(function () {
+      $('#works-float-control').addClass('d-none');
       $songList.html(
         '<li class="text-danger small">Could not load songs. Serve the site over HTTP (e.g. Live Server).</li>'
       );

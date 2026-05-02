@@ -157,11 +157,17 @@
         </div>
       </section>
 
-      <!-- Row 5: video + try-out song list -->
-      <section id="row-preview" class="py-5 border-bottom">
+      <!-- Row 5: works preview (MV + audio) -->
+      <section id="row-preview" class="py-5 border-bottom" aria-label="Works preview">
         <div class="container">
+          <h2 class="h4 text-center mb-4">Works preview</h2>
           <div class="row g-4">
             <div class="col-md-6">
+              <p class="small text-secondary mb-2">Music video</p>
+              <p class="small text-muted mb-2">
+                While the song preview is playing, click the video to pause it. When the song is paused, you can use
+                the YouTube player normally. Resume audio with the bar or the floating control.
+              </p>
               <div
                 id="preview-mv-wrap"
                 class="ratio ratio-16x9 bg-dark rounded overflow-hidden shadow"
@@ -171,11 +177,20 @@
             </div>
             <div class="col-md-6">
               <div class="border rounded p-3 bg-light">
-                <p class="mb-2 fw-semibold text-body">Try-out songs</p>
-                <p class="small text-secondary mb-3">Pick a track to load the MV preview.</p>
+                <p class="mb-2 fw-semibold text-body">Try-out tracks</p>
+                <p class="small text-secondary mb-3">
+                  Use the list below or <strong>Ignite the Beat</strong> in the nav — same tracks. Choose a work to load the MV and play the MP3 preview (click required for audio).
+                </p>
                 <ul id="preview-song-list" class="list-unstyled mb-0 d-grid gap-2">
-                  <li class="text-secondary small">Loading songs…</li>
+                  <li class="text-secondary small">Loading works…</li>
                 </ul>
+                <audio
+                  id="works-preview-audio"
+                  class="w-100 mt-3"
+                  controls
+                  playsinline
+                  preload="metadata"
+                ></audio>
               </div>
             </div>
           </div>
@@ -252,6 +267,16 @@
         </div>
       </div>
     </footer>
+
+    <!-- Floating play/pause for works preview (wired in app.js) -->
+    <button
+      type="button"
+      id="works-float-control"
+      class="works-float-ball btn btn-dark rounded-circle shadow-lg d-none"
+      aria-label="Play or pause work preview"
+    >
+      <i class="bi bi-play-fill fs-4" aria-hidden="true"></i>
+    </button>
 
     <!-- jQuery (load before custom scripts) -->
     <script

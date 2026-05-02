@@ -249,3 +249,50 @@ add them into the songs.json, and comeplete the feature
 ### Outcome
 Authored valid **`data/songs.json`** with **Mayoiuta** (existing), **Utakotoba**, and **Ichijitsusenshu** — each **`name`** + **`iframe`** embed string. **`initSongsPreview()`** in **`js/app.js`** loads tracks, normalizes YouTube **`src`** via **`extractYouTubeEmbedSrc()`**, builds the MV with **`buildPreviewIframe()`** into **`#preview-mv-host`**, populates **`#preview-song-list`** and **`#js-nav-song-list`**, and loads the first song by default. **`index.html`** preview row updated (empty nav list filled by script). **`FEATURES.md`** updated (navbar + preview bullets).
 
+---
+
+### Prompt
+OK, now I add the corresponding mp3 into the audio, add their path into the songs.json
+
+then, we are going to implement another feature of the song preview.
+by the way, our "song_preview" is infact "works_preview", with song and mv preview, we have already completed the mv preview
+
+and for song preview
+
+we need to link our drop down menu with the songs table
+
+then, click on the button will make the webpage play the song.
+
+that concludes song - preview feature
+
+### Outcome
+Extended **`data/songs.json`** with **`audio`** paths (**`audio/Mayoiuta.mp3`**, **`Utakotoba.mp3`**, **`Ichijitsusenshu.mp3`**). Renamed the preview block to **Works preview** in **`index.html`**, added **`#works-preview-audio`** with controls. **`applyWorkSelection()`** ties **`#js-nav-song-list`** and **`#preview-song-list`** to the same indices: updates MV, assigns **`audio.src`**, marks the active list button, and calls **`play()`** on user click (first work loads MV + `src` without autoplay). **`FEATURES.md`** updated.
+
+---
+
+### Prompt
+and of course, only provide a controller at the songs table is kind of inconvenient
+add a feature:
+a floating ball, user can click on it to start pause a song.
+if we haven;t selected anything, we can just randomly select a song
+
+### Outcome
+Added **`#works-float-control`** (circular fixed **works-float-ball** in **`css/styles.css`**) with play/pause icons. **`initSongsPreview()`** tracks **`userExplicitChoice`** (set when using nav or list). First float click while **`!userExplicitChoice`** picks **`Math.floor(Math.random() * n)`**, applies that work, and plays; later clicks toggle **`HTMLMediaElement` play/pause**. **`updateWorksFloatControl()`** keeps icon and **`aria-label`** in sync with audio events. Ball stays **`d-none`** until songs load; hidden again on JSON failure. **`FEATURES.md`** updated.
+
+---
+
+### Prompt
+OK, final fix.
+if user clicked the mv, we just pause, until user manually resume
+
+### Outcome
+**`#preview-mv-wrap`** click handler pauses **`#works-preview-audio`** when it is playing. **`#preview-mv-host iframe`** uses **`pointer-events: none`** so clicks register on the wrapper. No auto-resume—only the native audio controls or the floating play button. Hint copy added under **Music video**; **`FEATURES.md`** updated.
+
+---
+
+### Prompt
+emmm., something went wrong. The user now is unable to play mv. Think about it amd fix it
+
+### Outcome
+**`pointer-events: none`** on the YouTube iframe had blocked all MV interaction. Replaced with a **`.preview-mv-song-pause-overlay`** (transparent, absolutely positioned) toggled by **`syncSongPauseOverlay()`** only while the **MP3 is playing**; overlay click pauses audio. When audio is paused the overlay is **`d-none`** so **YouTube receives clicks** again. Delegated **`click.previewSongPause`** on **`#preview-mv-wrap`**; **`renderSongPreview()`** appends iframe + overlay. **`FEATURES.md`** updated.
+
