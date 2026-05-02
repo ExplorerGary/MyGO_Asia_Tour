@@ -206,3 +206,46 @@ try to match them together
 ### Outcome
 Authored **`data/characters.json`** for the five roles with **`img_front` / `img_end`** paths matched to **`tmr_`**, **`anon_`**, **`rana_`**, **`soyo_`**, and **`taki_`** `*_front.webp` / `*_end.webp` in **`image/`**. Replaced the members placeholder with **`#members-root`** and implemented **`initMembersSection()`** in **`js/app.js`** (`$.getJSON`, jQuery-built cards, escaped names). Added flip-card CSS in **`css/styles.css`** (portrait **`aspect-ratio: 3 / 4`**, back face **`rotateY(180deg)`**, hover vs touch/keyboard behavior). Logged the feature in **`FEATURES.md`**.
 
+---
+
+### Prompt
+OK, I add a color tag into the @data/characters.json 
+now, add the borader to our characters, use the color of the json
+remember to add some drop down shadows
+
+### Outcome
+Cards use **`character-card--themed`** with **`--character-accent`** from JSON **`color`** (validated **`sanitizeHexColor()`**): **4px** solid border. **`css/styles.css`** adds several **`box-shadow`** layers for depth, plus **`color-mix`** accent glow inside **`@supports`**. **`FEATURES.md`** updated.
+
+---
+
+### Prompt
+OK, final adjustments, increase the height of all images, the current one climped the top and down.
+
+### Outcome
+Member flip panels are **taller** (**`aspect-ratio: 9 / 16`**, **`min-height: clamp(22rem, 52vw, 36rem)`**). Character artwork uses **`object-fit: contain`** instead of **`cover`**, with a light **accent-tinted** face background so **top/bottom aren’t cropped**. **`FEATURES.md`** updated.
+
+---
+
+### Prompt
+OK, that concludes for characters.json
+
+and for song preview, we need another json named songs.json
+
+we are going to record the name, and their iframe code for it.
+
+the name will be added into the songs list, and the drop down menu
+while iframe is for the iframe mv preview.
+
+that concludes the songs preview part.
+
+here are the data you need:
+
+Utakotoba: <iframe ...>
+
+Ichijitsusenshu: <iframe ...>
+
+add them into the songs.json, and comeplete the feature
+
+### Outcome
+Authored valid **`data/songs.json`** with **Mayoiuta** (existing), **Utakotoba**, and **Ichijitsusenshu** — each **`name`** + **`iframe`** embed string. **`initSongsPreview()`** in **`js/app.js`** loads tracks, normalizes YouTube **`src`** via **`extractYouTubeEmbedSrc()`**, builds the MV with **`buildPreviewIframe()`** into **`#preview-mv-host`**, populates **`#preview-song-list`** and **`#js-nav-song-list`**, and loads the first song by default. **`index.html`** preview row updated (empty nav list filled by script). **`FEATURES.md`** updated (navbar + preview bullets).
+

@@ -4,6 +4,7 @@ $(function () {
   initTourMap();
   initConcertsTable();
   initMembersSection();
+  initSongsPreview();
 });
 
 /**
@@ -106,6 +107,34 @@ function initConcertsTable() {
 }
 
 /**
+ * Allow only `#RGB` / `#RRGGBB` for inline accent (from JSON).
+ * @param {string} value
+ * @returns {string}
+ */
+function sanitizeHexColor(value) {
+  if (!value || typeof value !== 'string') {
+    return '';
+  }
+  var v = value.trim();
+  if (/^#[0-9A-Fa-f]{6}$/.test(v)) {
+    return v;
+  }
+  if (/^#[0-9A-Fa-f]{3}$/.test(v)) {
+    return (
+      '#' +
+      v
+        .slice(1)
+        .split('')
+        .map(function (c) {
+          return c + c;
+        })
+        .join('')
+    );
+  }
+  return '';
+}
+
+/**
  * Build member cards from `data/characters.json` (front / back flip).
  */
 function initMembersSection() {
@@ -137,7 +166,11 @@ function initMembersSection() {
         var altEnd = esc(ch.name + ' — back');
 
         var $col = $('<div class="col"/>');
-        var $article = $('<article class="card character-card border-0 shadow-sm h-100"/>');
+        var $article = $('<article class="card character-card character-card--themed h-100"/>');
+        var accent = sanitizeHexColor(ch.color);
+        if (accent) {
+          $article.css('--character-accent', accent);
+        }
 
         var $flipWrap = $(
           '<div class="character-flip-wrap character-flip-aspect" tabindex="0" role="button" aria-label="' +
@@ -199,5 +232,144 @@ function initMembersSection() {
       $root.html(
         '<div class="col-12 text-center text-danger">Could not load members. Please try again later.</div>'
       );
+    });
+}
+
+/**
+ * Parse stored iframe HTML; return embed URL only for youtube.com/embed/…
+ * @param {string} iframeHtml
+ * @returns {string}
+ */
+function extractYouTubeEmbedSrc(iframeHtml) {
+  if (!iframeHtml || typeof iframeHtml !== 'string') {
+    return '';
+  }
+  var m = iframeHtml.match(/\bsrc\s*=\s*["']([^"']+)["']/i);
+  if (!m) {
+    return '';
+  }
+  var src = m[1];
+  if (!/^https:\/\/(www\.)?youtube\.com\/embed\/[a-zA-Z0-9_-]+/i.test(src)) {
+    return '';
+  }
+  return src;
+}
+
+/**
+ * @param {string} embedSrc
+ * @param {string} songName
+ * @returns {JQuery<HTMLIFrameElement>}
+ */
+function buildPreviewIframe(embedSrc, songName) {
+  return $('<iframe/>', {
+    class: 'w-100 h-100 border-0',
+    src: embedSrc,
+    title: songName ? 'MV — ' + songName : 'YouTube video player',
+    allow:
+      'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
+    allowfullscreen: true,
+    referrerpolicy: 'strict-origin-when-cross-origin',
+  });
+}
+
+/**
+ * @param { { name: string, embedSrc: string } } song
+ */
+function renderSongPreview(song) {
+  var $mvHost = $('#preview-mv-host');
+  if (!$mvHost.length || !song || !song.embedSrc) {
+    return;
+  }
+  $mvHost.empty().append(buildPreviewIframe(song.embedSrc, song.name));
+}
+
+/**
+ * Load `data/songs.json`, fill navbar dropdown + preview list, wire MV iframe.
+ */
+function initSongsPreview() {
+  var $navList = $('#js-nav-song-list');
+  var $songList = $('#preview-song-list');
+  var $mvHost = $('#preview-mv-host');
+  if (!$songList.length || !$mvHost.length) {
+    return;
+  }
+
+  $.getJSON('data/songs.json')
+    .done(function (data) {
+      var songs = (data && data.songs) || [];
+      var normalized = [];
+
+      songs.forEach(function (raw) {
+        if (!raw) {
+          return;
+        }
+        var name = raw.name || raw.title || 'Track';
+        var src = extractYouTubeEmbedSrc(raw.iframe);
+        if (!src) {
+          return;
+        }
+        normalized.push({ name: name, embedSrc: src });
+      });
+
+      if (!normalized.length) {
+        $songList.html('<li class="text-warning small">No playable songs.</li>');
+        if ($navList.length) {
+          $navList.html(
+            '<li><span class="dropdown-item-text text-muted small">No tracks</span></li>'
+          );
+        }
+        return;
+      }
+
+      if ($navList.length) {
+        $navList.empty();
+        $navList.append('<li><h6 class="dropdown-header">Preview tracks</h6></li>');
+        normalized.forEach(function (s, i) {
+          var $btn = $('<button type="button" class="dropdown-item"></button>')
+            .text(s.name)
+            .attr('data-song-index', String(i));
+          $navList.append($('<li></li>').append($btn));
+        });
+        $navList.append('<li><hr class="dropdown-divider" /></li>');
+        $navList.append(
+          $('<li></li>').append(
+            $('<a class="dropdown-item" href="#row-preview">Open preview player</a>')
+          )
+        );
+
+        $navList.on('click', 'button[data-song-index]', function () {
+          var idx = parseInt($(this).attr('data-song-index'), 10);
+          if (!Number.isNaN(idx) && normalized[idx]) {
+            renderSongPreview(normalized[idx]);
+          }
+        });
+      }
+
+      $songList.empty();
+      normalized.forEach(function (s, i) {
+        var $btn = $('<button type="button" class="btn btn-outline-dark btn-sm w-100 text-start"></button>')
+          .text(s.name)
+          .attr('data-song-index', String(i));
+        $songList.append($('<li></li>').append($btn));
+      });
+
+      $songList.on('click', 'button[data-song-index]', function () {
+        var idx = parseInt($(this).attr('data-song-index'), 10);
+        if (!Number.isNaN(idx) && normalized[idx]) {
+          renderSongPreview(normalized[idx]);
+        }
+      });
+
+      renderSongPreview(normalized[0]);
+    })
+    .fail(function () {
+      $songList.html(
+        '<li class="text-danger small">Could not load songs. Serve the site over HTTP (e.g. Live Server).</li>'
+      );
+      if ($navList.length) {
+        $navList.html(
+          '<li><span class="dropdown-item-text text-danger small">Could not load tracks</span></li>'
+        );
+      }
     });
 }

@@ -54,11 +54,33 @@
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55));
 }
 
-/* Members: front/back flip (JSON-driven cards) */
+/* Members: JSON accent border + layered drop shadows (--character-accent set inline) */
+.character-card.character-card--themed {
+  --character-accent: var(--bs-border-color);
+  background-color: var(--bs-body-bg);
+  border: 4px solid var(--character-accent) !important;
+  box-shadow:
+    0 0.15rem 0.35rem rgba(0, 0, 0, 0.08),
+    0 0.65rem 1.25rem rgba(0, 0, 0, 0.12),
+    0 1.35rem 2.75rem rgba(0, 0, 0, 0.1);
+}
+
+@supports (color: color-mix(in srgb, white 50%, black)) {
+  .character-card.character-card--themed {
+    box-shadow:
+      0 0.15rem 0.35rem rgba(0, 0, 0, 0.08),
+      0 0.65rem 1.25rem rgba(0, 0, 0, 0.12),
+      0 1.35rem 2.75rem rgba(0, 0, 0, 0.1),
+      0 0 2rem color-mix(in srgb, var(--character-accent) 35%, transparent);
+  }
+}
+
 .character-card .character-flip-wrap.character-flip-aspect {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4;
+  /* Taller panel than 3/4 so portraits breathe (was clipping top/bottom with cover) */
+  aspect-ratio: 9 / 16;
+  min-height: clamp(22rem, 52vw, 36rem);
   cursor: pointer;
   outline-offset: 4px;
   border-radius: var(--bs-border-radius);
@@ -77,12 +99,20 @@
   inset: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  background-color: var(--bs-secondary-bg);
+}
+
+@supports (color: color-mix(in srgb, white 50%, black)) {
+  .character-card .character-face {
+    background-color: color-mix(in srgb, var(--character-accent) 12%, var(--bs-body-bg));
+  }
 }
 
 .character-card .character-face img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center center;
 }
 
 .character-card .character-face-back {

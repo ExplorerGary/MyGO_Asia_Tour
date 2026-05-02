@@ -76,20 +76,7 @@
                   class="dropdown-menu dropdown-menu-end"
                   id="js-nav-song-list"
                   aria-labelledby="navIgniteBeat"
-                >
-                  <li>
-                    <h6 class="dropdown-header">Preview tracks</h6>
-                  </li>
-                  <li>
-                    <span class="dropdown-item-text text-muted small">
-                      Song links will be populated from JSON via jQuery (placeholder).
-                    </span>
-                  </li>
-                  <li><hr class="dropdown-divider" /></li>
-                  <li>
-                    <a class="dropdown-item" href="#row-preview">Open preview player</a>
-                  </li>
-                </ul>
+                ></ul>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#row-register">Secure Your Dream Ticket</a>
@@ -175,15 +162,19 @@
         <div class="container">
           <div class="row g-4">
             <div class="col-md-6">
-              <div class="ratio ratio-16x9 bg-dark rounded d-flex align-items-center justify-content-center text-white opacity-50 small">
-                Video iframe — placeholder
+              <div
+                id="preview-mv-wrap"
+                class="ratio ratio-16x9 bg-dark rounded overflow-hidden shadow"
+              >
+                <div id="preview-mv-host" class="w-100 h-100"></div>
               </div>
             </div>
             <div class="col-md-6">
-              <div class="border rounded p-3 bg-light text-secondary small">
-                <p class="mb-2 fw-semibold text-body">Try-out songs — placeholder</p>
-                <ul class="list-unstyled mb-0">
-                  <li>—</li>
+              <div class="border rounded p-3 bg-light">
+                <p class="mb-2 fw-semibold text-body">Try-out songs</p>
+                <p class="small text-secondary mb-3">Pick a track to load the MV preview.</p>
+                <ul id="preview-song-list" class="list-unstyled mb-0 d-grid gap-2">
+                  <li class="text-secondary small">Loading songs…</li>
                 </ul>
               </div>
             </div>
