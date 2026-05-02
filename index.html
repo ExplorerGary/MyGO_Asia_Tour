@@ -154,15 +154,18 @@
         </div>
       </section>
 
-      <!-- Row 4: band members -->
+      <!-- Row 4: band members (cards from data/characters.json) -->
       <section id="row-members" class="py-5 border-bottom">
         <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <div class="bg-light border rounded p-5 text-center text-secondary small">
-                Members — placeholder (col-12)
-              </div>
-            </div>
+          <h2 class="h3 text-center mb-2">Members Spotlight</h2>
+          <p class="text-center text-secondary small mb-4">
+            Hover for the back pose on desktop; tap the photo on touch screens. Keyboard: focus and press Enter or Space.
+          </p>
+          <div
+            id="members-root"
+            class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5 g-4 justify-content-center"
+          >
+            <div class="col-12 text-center text-secondary py-5 members-loading">Loading members…</div>
           </div>
         </div>
       </section>

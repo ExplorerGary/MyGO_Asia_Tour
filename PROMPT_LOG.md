@@ -182,3 +182,27 @@ this completes the table feature
 ### Outcome
 Added **`data/concerts.json`** with five cities in tour order: **Tokyo** opens **2026-05-10** (evening, `+09:00`); other stops use **weekend** dates in 2026 with **ISO 8601 `startsAt` + IANA `timeZone`** and fictional **venue** names. Refactored **`js/app.js`**: **`initConcertsTable()`** targets **`#tour-dates-tbody`**, loads JSON via jQuery, and injects rows; **`formatConcertDateTime()`** uses **`Intl.DateTimeFormat`** for local display. Map init moved to **`initTourMap()`** so the table still runs if the map is absent. Updated **`index.html`** tbody id and loading row. Documented the map + table in **`FEATURES.md`**.
 
+---
+
+### Prompt
+so,we are going to complete the characters.
+it's  going to be a json powered function.
+but., it needs a function: the characters.json first
+it has a list of "characters"
+each of them have a name, position(title), img_front (the path to the front img), img_end(the path to end img)
+
+OK.
+here is what you going to need:
+
+Vo. Tomori Takamatsu
+Gt.1 Anon Chihaya
+Gt.2 Rana Kaname
+Ba. Soyo Nagasaki
+Dr. Taki Shina
+
+by the way, the front and end images are already in the image dir
+try to match them together
+
+### Outcome
+Authored **`data/characters.json`** for the five roles with **`img_front` / `img_end`** paths matched to **`tmr_`**, **`anon_`**, **`rana_`**, **`soyo_`**, and **`taki_`** `*_front.webp` / `*_end.webp` in **`image/`**. Replaced the members placeholder with **`#members-root`** and implemented **`initMembersSection()`** in **`js/app.js`** (`$.getJSON`, jQuery-built cards, escaped names). Added flip-card CSS in **`css/styles.css`** (portrait **`aspect-ratio: 3 / 4`**, back face **`rotateY(180deg)`**, hover vs touch/keyboard behavior). Logged the feature in **`FEATURES.md`**.
+

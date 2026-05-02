@@ -54,3 +54,54 @@
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55));
 }
 
+/* Members: front/back flip (JSON-driven cards) */
+.character-card .character-flip-wrap.character-flip-aspect {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  cursor: pointer;
+  outline-offset: 4px;
+  border-radius: var(--bs-border-radius);
+  overflow: hidden;
+}
+
+.character-card .character-flip-inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.55s ease;
+}
+
+.character-card .character-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.character-card .character-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.character-card .character-face-back {
+  transform: rotateY(180deg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .character-card .character-flip-wrap:hover .character-flip-inner {
+    transform: rotateY(180deg);
+  }
+}
+
+.character-card .character-flip-wrap.is-flipped .character-flip-inner {
+  transform: rotateY(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .character-card .character-flip-inner {
+    transition: none;
+  }
+}
+

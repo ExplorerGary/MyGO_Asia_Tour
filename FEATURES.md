@@ -14,3 +14,5 @@ MyGo!!!!! Asia Tour promo page — completed components are listed below with a 
 
 - [x] **Tour dates table (`#tour-dates-tbody`)** — Rows built by **`initConcertsTable()`**: **`$.getJSON('data/concerts.json')`** then append `<tr>` cells for date/time, city, venue. Each concert uses **`startsAt`** as **ISO 8601 with UTC offset** plus **`timeZone`** (IANA); **`formatConcertDateTime`** uses **`Intl.DateTimeFormat`** (`en-US`, **`dateStyle: full`**, **`timeStyle: short`**) so shown times are correct **local civil time** for that city. Loading / error states handled in the tbody.
 
+- [x] **Members (`#row-members` / `#members-root`)** — **`data/characters.json`** lists each character with **`name`**, **`position`**, **`img_front`**, **`img_end`** (paths paired to **`tmr` / `anon` / `rana` / `soyo` / `taki`** files in **`image/`**). **`initMembersSection()`** loads JSON and builds Bootstrap **cards** with a **3D flip** (front vs back art): **hover** on fine pointers, **tap** to toggle on coarse/touch, **Enter** / **Space** toggles when focused. Images use **lazy** loading; names are escaped when inserted into HTML.
+
