@@ -450,3 +450,69 @@ set them to be flex-end
 ### Outcome
 **`css/styles.css`**: **`#row-nav .site-navbar .navbar-collapse`** — from **`lg`** up, **`flex-grow: 1`**, **`justify-content: flex-end`**, **`align-items: center`**; below **`lg`**, **`align-items: flex-end`** so stacked links sit on the right. **`index.html`**: removed **`ms-auto`** from **`navbar-nav`** (placement comes from the collapse flex rules).
 
+---
+
+### Prompt
+OK, it doesn't working.
+just Move the navigation items (Tour Schedule, Members Spotlight, etc.) to the right side of the navbar, tight against the right edge.
+
+### Outcome
+**`index.html`**: **`flex-grow-1`** on **`#mainNav.navbar-collapse`** so the collapse fills the space between the logo and the container’s right padding (Bootstrap **`container`** already uses **`justify-content: space-between`**). Restored **`ms-auto`** on **`ul.navbar-nav`** so the link group sits flush right. **`css/styles.css`**: dropped the earlier flex-only approach; kept **`justify-content: flex-end`** on **`lg`**+ and small-screen **`align-items` / `text-align: right`** for the stacked menu. **`FEATURES.md`** decoration line updated.
+
+---
+
+### Prompt
+OK, then, decorate the map
+add a broader to it, use the main color
+
+### Outcome
+**`#tour-map.tour-map`**: **`4px`** border **`var(--site-color-main)`**, **`border-radius`**, **`overflow: hidden`** so tiles respect corners, light **`box-shadow`** in the same hue. **`index.html`**: dropped generic **`border`** class (border fully defined in **`css/styles.css`**). **`FEATURES.md`** map bullet updated.
+
+---
+
+### Prompt
+OK, decorate the date table
+for the table tile, textalign = center
+then, the background color will be accsecnt blue
+and for following conent rows
+it's light-gray / light gray-blue / light-gray / light gray-blue / etc.
+and those hovered, will have a sepcial effect
+
+### Outcome
+**`tour-dates-table`**: centered **`th`/`td`**, accent **`thead`**, alternating odd/even row backgrounds (CSS vars **`--tour-row-gray`** / **`--tour-row-gray-blue`**), hover mix + inset accent bar + shadow; **`2px`** main-color border + radius. **`table-borderless`**, removed **`table-striped`**. **`tour-dates-status`** on loading / empty / error rows in **`index.html`** + **`js/app.js`**. Active map row styling adjusted. **`FEATURES.md`** tour table bullet updated.
+
+---
+
+### Prompt
+OK, for that row, can you make the align-items = stectch?
+also, please add the font size in the table
+
+### Outcome
+**`#row-tour`**: **`row`** gains **`align-items-stretch`**; map/table **`col-md-6`** use **`d-flex flex-column`**, classes **`tour-map-col`** / **`tour-table-col`**; map **`flex-grow-1`**, **`table-responsive`** **`flex-grow-1`**. CSS: map **`height: 100%`** from **`md`** so it can match a taller table column (**`400px`** when stacked). **`.tour-dates-table`**: **`font-size: 1.0625rem`**, **`thead th`** **`1.1rem`**. **`FEATURES.md`** map + table bullets updated.
+
+---
+
+### Prompt
+for:
+Members Spotlight
+
+
+delete ”Hover for the back pose on desktop; tap the photo on touch screens. Keyboard: focus and press Enter or Space.“
+
+and decorate the rest
+
+use main blue, and Russo One
+
+make it about 48px
+
+### Outcome
+Removed the intro **`<p>`** under **Members Spotlight**. **`index.html`**: section **`members-spotlight`**, heading **`members-spotlight-heading`**. **`css/styles.css`**: section gradient from main tint; heading **Russo One**, **`var(--site-color-main)`**, **`clamp(2rem, 1.5rem + 2.5vw, 3rem)`** (caps near **48px**), accent **`::after`** bar + glow. **`FEATURES.md`** members bullet updated.
+
+---
+
+### Prompt
+OK, the container of row-members shall be transparent, we want to see the blurred @image/background.webp
+
+### Outcome
+Replaced **`members-spotlight`** gradient with **`background-color: transparent`** and **`background-image: none`**; same on **`.members-spotlight > .container`** so **`page-bg-decoration`** shows through. **`FEATURES.md`** members bullet updated (gradient sentence removed).
+

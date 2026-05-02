@@ -62,8 +62,8 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="mainNav">
-            <ul class="navbar-nav mb-2 mb-lg-0 align-items-lg-center">
+          <div class="collapse navbar-collapse flex-grow-1" id="mainNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
               <li class="nav-item">
                 <a class="nav-link" href="#row-tour">Asia Tour 2026</a>
               </li>
@@ -119,18 +119,18 @@
       <!-- Row 3: map + tour dates table -->
       <section id="row-tour" class="py-5 border-bottom">
         <div class="container">
-          <div class="row g-4">
-            <div class="col-md-6">
+          <div class="row g-4 align-items-stretch">
+            <div class="col-md-6 d-flex flex-column tour-map-col">
               <div
                 id="tour-map"
-                class="tour-map rounded border"
+                class="tour-map rounded flex-grow-1"
                 role="application"
                 aria-label="Asia tour map with five cities"
               ></div>
             </div>
-            <div class="col-md-6">
-              <div class="table-responsive">
-                <table class="table table-sm table-striped mb-0">
+            <div class="col-md-6 d-flex flex-column tour-table-col">
+              <div class="table-responsive flex-grow-1">
+                <table class="table table-sm table-borderless mb-0 tour-dates-table">
                   <thead>
                     <tr>
                       <th scope="col">Date</th>
@@ -139,7 +139,7 @@
                     </tr>
                   </thead>
                   <tbody id="tour-dates-tbody">
-                    <tr class="tour-dates-loading">
+                    <tr class="tour-dates-loading tour-dates-status">
                       <td colspan="3" class="text-secondary">Loading tour dates…</td>
                     </tr>
                   </tbody>
@@ -151,12 +151,9 @@
       </section>
 
       <!-- Row 4: band members (cards from data/characters.json) -->
-      <section id="row-members" class="py-5 border-bottom">
+      <section id="row-members" class="py-5 border-bottom members-spotlight">
         <div class="container">
-          <h2 class="h3 text-center mb-2">Members Spotlight</h2>
-          <p class="text-center text-secondary small mb-4">
-            Hover for the back pose on desktop; tap the photo on touch screens. Keyboard: focus and press Enter or Space.
-          </p>
+          <h2 class="text-center members-spotlight-heading">Members Spotlight</h2>
           <div
             id="members-root"
             class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5 g-4 justify-content-center"

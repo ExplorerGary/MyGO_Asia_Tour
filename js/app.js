@@ -240,7 +240,7 @@ function initConcertsTable() {
       var list = data && data.concerts;
       if (!list || !list.length) {
         $tbody.html(
-          '<tr><td colspan="3" class="text-warning">No concerts listed.</td></tr>'
+          '<tr class="tour-dates-status"><td colspan="3" class="text-warning">No concerts listed.</td></tr>'
         );
         return;
       }
@@ -264,7 +264,7 @@ function initConcertsTable() {
     })
     .fail(function () {
       $tbody.html(
-        '<tr><td colspan="3" class="text-danger">Could not load tour dates. Please try again later.</td></tr>'
+        '<tr class="tour-dates-status"><td colspan="3" class="text-danger">Could not load tour dates. Please try again later.</td></tr>'
       );
     });
 }
