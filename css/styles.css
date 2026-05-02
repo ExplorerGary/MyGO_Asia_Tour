@@ -24,10 +24,9 @@
   transform-origin: center center;
 }
 
-/* Keep #row-nav sticky-top — do not set position: relative on header */
+/* Stack main + footer above .page-bg-decoration — do NOT include #works-float-control (needs position: fixed) */
 body > main,
-body > footer,
-body > #works-float-control {
+body > footer {
   position: relative;
   z-index: 1;
 }
@@ -256,14 +255,14 @@ body > #works-float-control {
 }
 
 .leaflet-container svg path.tour-route-line--animated {
-  stroke: #93d5f5 !important;
+  stroke: var(--site-color-accent) !important;
   stroke-opacity: 1 !important;
   stroke-width: 3px !important;
   stroke-dasharray: 10 14 !important;
   stroke-dashoffset: 0;
   filter:
-    drop-shadow(0 0 3px rgba(147, 213, 245, 0.95))
-    drop-shadow(0 0 10px rgba(125, 200, 255, 0.65));
+    drop-shadow(0 0 3px color-mix(in srgb, var(--site-color-accent) 88%, transparent))
+    drop-shadow(0 0 10px color-mix(in srgb, var(--site-color-accent) 58%, transparent));
   animation: tour-route-dash-flow 1.35s linear infinite;
 }
 
@@ -277,7 +276,7 @@ body > #works-float-control {
   .leaflet-container svg path.tour-route-line--animated {
     animation: none;
     stroke-dashoffset: 0 !important;
-    filter: drop-shadow(0 0 4px rgba(147, 213, 245, 0.5));
+    filter: drop-shadow(0 0 4px color-mix(in srgb, var(--site-color-accent) 52%, transparent));
   }
 }
 
@@ -559,6 +558,54 @@ body > #works-float-control {
   .character-card .character-flip-inner {
     transition: none;
   }
+}
+
+/* Members: mobile — one card visible + name tabs (default character name contains “Tomori”) */
+@media (max-width: 767.98px) {
+  #members-root > .members-card-col:not(.is-members-mobile-active) {
+    display: none !important;
+  }
+
+  #members-root > .members-card-col.is-members-mobile-active {
+    display: block !important;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+.members-mobile-picker {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  row-gap: 0.5rem;
+}
+
+.members-mobile-pick-btn {
+  font-family: var(--site-nav-font);
+  color: var(--site-color-main);
+  border: 2px solid var(--site-color-main);
+  background-color: color-mix(in srgb, var(--bs-body-bg) 90%, var(--site-color-accent) 10%);
+}
+
+@supports not (color: color-mix(in srgb, white 50%, black)) {
+  .members-mobile-pick-btn {
+    background-color: #fff;
+  }
+}
+
+.members-mobile-pick-btn:hover,
+.members-mobile-pick-btn:focus-visible {
+  color: #fff;
+  background-color: var(--site-color-accent);
+  border-color: var(--site-color-accent);
+}
+
+.members-mobile-pick-btn.active {
+  color: #fff !important;
+  background-color: var(--site-color-accent) !important;
+  border-color: var(--site-color-accent) !important;
 }
 
 /* Works preview — MV label, frame, try-out panel (main + accent + Russo One) */

@@ -310,6 +310,7 @@ function initMembersSection() {
     .done(function (data) {
       var list = data && data.characters;
       $root.empty();
+      $('#members-mobile-picker').remove();
 
       if (!list || !list.length) {
         $root.append(
@@ -318,7 +319,23 @@ function initMembersSection() {
         return;
       }
 
-      list.forEach(function (ch) {
+      var defaultMobileIdx = 0;
+      for (var di = 0; di < list.length; di++) {
+        var nm = list[di] && list[di].name;
+        if (nm && String(nm).indexOf('Tomori') !== -1) {
+          defaultMobileIdx = di;
+          break;
+        }
+      }
+
+      var $picker = $('<div/>', {
+        id: 'members-mobile-picker',
+        class: 'members-mobile-picker d-md-none',
+        role: 'tablist',
+        'aria-label': 'Select a member',
+      });
+
+      list.forEach(function (ch, index) {
         var esc = function (s) {
           return $('<div/>').text(s || '').html();
         };
@@ -328,7 +345,10 @@ function initMembersSection() {
         var altFront = esc(ch.name + ' — front');
         var altEnd = esc(ch.name + ' — back');
 
-        var $col = $('<div class="col"/>');
+        var $col = $('<div class="col members-card-col"/>').attr(
+          'id',
+          'members-slot-' + index
+        );
         var $article = $('<article class="card character-card character-card--themed h-100"/>');
         var accent = sanitizeHexColor(ch.color);
         if (accent) {
@@ -389,9 +409,41 @@ function initMembersSection() {
         });
 
         $root.append($col);
+
+        var $pickBtn = $('<button type="button" class="btn btn-sm members-mobile-pick-btn"/>')
+          .text(ch.name || 'Member')
+          .attr('data-member-index', String(index))
+          .attr('role', 'tab')
+          .attr('aria-controls', 'members-slot-' + index)
+          .attr('aria-selected', index === defaultMobileIdx ? 'true' : 'false');
+        if (index === defaultMobileIdx) {
+          $pickBtn.addClass('active');
+        }
+        $picker.append($pickBtn);
+      });
+
+      $root.before($picker);
+
+      $root.children('.members-card-col').removeClass('is-members-mobile-active');
+      $root
+        .children('.members-card-col')
+        .eq(defaultMobileIdx)
+        .addClass('is-members-mobile-active');
+
+      $picker.on('click', 'button.members-mobile-pick-btn', function () {
+        var idx = parseInt($(this).attr('data-member-index'), 10);
+        if (Number.isNaN(idx)) {
+          return;
+        }
+        $picker.find('button').removeClass('active').attr('aria-selected', 'false');
+        $(this).addClass('active').attr('aria-selected', 'true');
+        $root.find('.members-card-col').removeClass('is-members-mobile-active');
+        $root.children('.members-card-col').eq(idx).addClass('is-members-mobile-active');
+        $root.find('.character-flip-wrap.is-flipped').removeClass('is-flipped');
       });
     })
     .fail(function () {
+      $('#members-mobile-picker').remove();
       $root.html(
         '<div class="col-12 text-center text-danger">Could not load members. Please try again later.</div>'
       );

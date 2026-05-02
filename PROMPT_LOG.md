@@ -559,3 +559,20 @@ increase font size in the song table, all by 60%
 ### Outcome
 **`css/styles.css`**: try-out **`works-tryout-heading`**, **`#preview-song-list > li`**, and **`works-preview-track-btn`** use **`calc(... * 1.6)`** for type; button **`padding-block`** also **×1.6**. **`FEATURES.md`** works preview bullet updated.
 
+---
+
+### Prompt
+finally, decorate the register part and footer
+
+### Outcome
+**`#row-register`**: **`register-section`** (gradient + accent top border), **`spotlight-section-heading`**, **`register-subheading`** / **`register-intro`**, **`register-card`** / **`register-card-title`**, **`register-submit-btn`**; scoped **form** focus, **`.form-text`**, **`reg-payment-btn`**, **stadium** ring palette in **`css/styles.css`**. **`index.html`**: removed **`bg-body-tertiary`**, **`btn-primary`** on submit, **`text-dark`** on outer ring; card uses **`register-card`**. **Footer**: **`site-footer-themed`**, dropped **`bg-dark`** / default **`border-top`** classes; gradient + accent top + social hover glow. **`FEATURES.md`** footer + lottery bullets updated; **Members** / **Works** spotlight wording includes **Lottery**.
+
+---
+
+### Prompt
+great job, now, finally, fix the hover ball problem
+it now stuck at the bottom of the footer, put it back to the orignal place
+
+### Outcome
+**`css/styles.css`**: removed **`#works-float-control`** from **`body > … { position: relative; z-index: 1 }`** (that rule was for stacking over **`page-bg-decoration`**). **`position: relative` there had overridden **`.works-float-ball`’s `position: fixed`**, so the ball laid out after the footer. **`FEATURES.md`** Decoration backdrop bullet corrected.
+
