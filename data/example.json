@@ -1,0 +1,5 @@
+{
+  "title": "Example JSON",
+  "message": "You can fetch this via jQuery (e.g. $.getJSON('data/example.json'))"
+}
+
