@@ -748,7 +748,209 @@ body > #works-float-control {
   letter-spacing: 0.05em;
 }
 
-.reg-payment-btn.active {
-  box-shadow: inset 0 0 0 2px var(--bs-primary);
+/* Lottery registration — palette + Russo One accents */
+#row-register.register-section {
+  background: linear-gradient(
+    185deg,
+    color-mix(in srgb, var(--site-color-main) 7%, var(--bs-body-bg)) 0%,
+    var(--bs-body-bg) 55%,
+    color-mix(in srgb, var(--site-color-accent) 5%, var(--bs-body-bg)) 100%
+  );
+  border-top-color: color-mix(in srgb, var(--site-color-accent) 50%, transparent) !important;
+}
+
+@supports not (color: color-mix(in srgb, white 50%, black)) {
+  #row-register.register-section {
+    background: linear-gradient(185deg, #eef1f3 0%, var(--bs-body-bg) 55%, #eef3f6 100%);
+    border-top-color: rgba(51, 101, 138, 0.45) !important;
+  }
+}
+
+#row-register .register-subheading {
+  font-family: var(--site-nav-font);
+  color: var(--site-color-main);
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+
+#row-register .register-intro {
+  color: color-mix(in srgb, var(--site-color-main) 58%, var(--bs-secondary-color));
+}
+
+@supports not (color: color-mix(in srgb, white 50%, black)) {
+  #row-register .register-intro {
+    color: #5c6570;
+  }
+}
+
+#row-register .register-card {
+  border: 2px solid var(--site-color-main) !important;
+  border-radius: 0.5rem;
+  background-color: color-mix(in srgb, var(--bs-body-bg) 92%, var(--site-color-accent) 8%);
+  box-shadow: 0 0.4rem 1.15rem rgba(47, 72, 88, 0.14);
+}
+
+@supports not (color: color-mix(in srgb, white 50%, black)) {
+  #row-register .register-card {
+    background-color: #fafbfc;
+  }
+}
+
+#row-register .register-card-title {
+  font-family: var(--site-nav-font);
+  color: var(--site-color-main);
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+
+#row-register .form-label,
+#row-register fieldset legend.form-label {
+  color: var(--site-color-main);
+  font-weight: 600;
+}
+
+#row-register .form-text {
+  color: color-mix(in srgb, var(--site-color-main) 42%, var(--bs-secondary-color));
+}
+
+@supports not (color: color-mix(in srgb, white 50%, black)) {
+  #row-register .form-text {
+    color: #5a6570;
+  }
+}
+
+#row-register .form-control:focus,
+#row-register .form-select:focus {
+  border-color: var(--site-color-accent);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--site-color-accent) 28%, transparent);
+}
+
+@supports not (color: color-mix(in srgb, white 50%, black)) {
+  #row-register .form-control:focus,
+  #row-register .form-select:focus {
+    box-shadow: 0 0 0 0.2rem rgba(51, 101, 138, 0.28);
+  }
+}
+
+#row-register .reg-payment-btn {
+  border-color: var(--site-color-main);
+  color: var(--site-color-main);
+  background-color: transparent;
+}
+
+#row-register .reg-payment-btn:hover,
+#row-register .reg-payment-btn:focus-visible {
+  background-color: var(--site-color-accent);
+  border-color: var(--site-color-accent);
+  color: #fff;
+}
+
+#row-register .reg-payment-btn.active {
+  background-color: var(--site-color-accent);
+  border-color: var(--site-color-accent);
+  color: #fff;
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.35),
+    0 0.2rem 0.65rem rgba(51, 101, 138, 0.35);
+}
+
+#row-register .register-submit-btn {
+  font-family: var(--site-nav-font);
+  letter-spacing: 0.04em;
+  background-color: var(--site-color-accent);
+  border-color: var(--site-color-accent);
+  color: #fff;
+}
+
+#row-register .register-submit-btn:hover {
+  background-color: color-mix(in srgb, var(--site-color-accent) 88%, #000);
+  border-color: color-mix(in srgb, var(--site-color-accent) 88%, #000);
+  color: #fff;
+}
+
+@supports not (color: color-mix(in srgb, white 50%, black)) {
+  #row-register .register-submit-btn:hover {
+    background-color: #295a7e;
+    border-color: #295a7e;
+  }
+}
+
+/* Stadium diagram inside register — align rings to site palette */
+#row-register .stadium-ring--c {
+  border-color: var(--site-color-main);
+  background: color-mix(in srgb, var(--site-color-main) 14%, var(--bs-body-bg));
+  color: var(--site-color-main);
+}
+
+#row-register .stadium-ring--b {
+  border-color: color-mix(in srgb, var(--site-color-accent) 65%, #fff);
+  background: color-mix(in srgb, var(--site-color-accent) 12%, var(--bs-body-bg));
+  color: var(--site-color-main);
+}
+
+#row-register .stadium-ring--a {
+  border-color: var(--site-color-accent);
+  background: color-mix(in srgb, var(--site-color-accent) 18%, var(--bs-body-bg));
+  color: var(--site-color-main);
+}
+
+#row-register .stadium-ring--s {
+  border-color: var(--site-color-main);
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--site-color-main) 35%, var(--site-color-accent)),
+    var(--site-color-accent)
+  );
+  color: #fff;
+}
+
+#row-register .stadium-ring-label {
+  color: inherit;
+}
+
+#row-register .stadium-ring-label--center {
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+/* Footer — main / accent shell, social glow */
+.site-footer.site-footer-themed {
+  background: linear-gradient(
+    168deg,
+    #1a2e38 0%,
+    var(--site-color-main) 38%,
+    #243d4a 100%
+  );
+  color: rgba(255, 255, 255, 0.92);
+  border-top: 3px solid var(--site-color-accent);
+  box-shadow: 0 -0.35rem 1.25rem rgba(0, 0, 0, 0.2);
+}
+
+.site-footer-themed .site-footer-content .border-top {
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+.site-footer-themed .link-light {
+  color: rgba(255, 255, 255, 0.88);
+  transition:
+    color 0.2s ease,
+    filter 0.2s ease,
+    transform 0.2s ease;
+}
+
+.site-footer-themed .link-light:hover,
+.site-footer-themed .link-light:focus-visible {
+  color: #fff;
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 10px rgba(147, 213, 245, 0.65));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-footer-themed .link-light:hover,
+  .site-footer-themed .link-light:focus-visible {
+    transform: none;
+  }
 }
 
