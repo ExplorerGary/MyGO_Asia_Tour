@@ -32,3 +32,25 @@
   }
 }
 
+/* Leaflet: tour map + Bootstrap Icons star markers */
+#tour-map.tour-map {
+  height: 400px;
+  min-height: 280px;
+  z-index: 0;
+}
+
+.leaflet-container .map-star-marker {
+  background: transparent;
+  border: none;
+}
+
+.leaflet-container .map-star-marker-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffc107;
+  font-size: 1.75rem;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55));
+}
+
